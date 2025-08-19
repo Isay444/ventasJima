@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<persistence
+  xmlns="https://jakarta.ee/xml/ns/persistence"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  version="3.0"
+  xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+
+  <persistence-unit name="TopografiaPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+    <!-- LISTA TUS ENTIDADES AQUÍ o usa classpath scanning de Hibernate -->
+    <class>com.topografia.modelo.entidades.Usuario</class>
+    <class>com.topografia.modelo.entidades.Cliente</class>
+    <!-- Puedes omitir <class> si usas auto-scanning (Hibernate 6 lo soporta bien) -->
+
+    <properties>
+      <!-- Conexion -->
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/topografia?useSSL=false&amp;serverTimezone=UTC"/> <!--?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC -->
+      <property name="jakarta.persistence.jdbc.user" value="root"/>
+      <property name="jakarta.persistence.jdbc.password" value="root"/>
+      <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+
+      <!-- Hibernate -->
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+      <property name="hibernate.hbm2ddl.auto" value="validate"/> <!-- validate porque ya esta hecha la base, pero update por si estamos en desarrollo -->
+      <property name="hibernate.show_sql" value="false"/>
+      <property name="hibernate.format_sql" value="true"/>
+
+      <!-- Pool Hikari (opcional) 
+      <property name="hibernate.connection.provider_class" value="org.hibernate.hikaricp.internal.HikariCPConnectionProvider"/>
+      <property name="hibernate.hikari.maximumPoolSize" value="10"/>
+      <property name="hibernate.hikari.minimumIdle" value="2"/>-->
+    </properties>
+  </persistence-unit>
+</persistence>

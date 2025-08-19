@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.topografia.vista.orden.OrdenController">
+
+    <top>
+        <ToolBar>
+            <Button text="Nueva Orden" onAction="#nuevaOrden"/>
+            <Button text="Editar Orden" onAction="#editarOrden"/>
+            <Button text="Eliminar Orden" onAction="#eliminarOrden"/>
+            <Button text="Actualizar" onAction="#cargarOrdenes"/>
+        </ToolBar>
+    </top>
+
+    <center>
+        <TableView fx:id="tablaOrdenes">
+            <columns>
+                <TableColumn fx:id="colFecha" text="Fecha" prefWidth="100"/>
+                <TableColumn fx:id="colEstado" text="Estado" prefWidth="120"/>
+                <TableColumn fx:id="colCliente" text="Cliente" prefWidth="150"/>
+                <TableColumn fx:id="colServicio" text="Servicio" prefWidth="180"/>
+                <TableColumn fx:id="colIngeniero" text="Ingeniero" prefWidth="150"/>
+                <TableColumn fx:id="colSubTerreno" text="Terreno" prefWidth="120"/>
+                <TableColumn fx:id="colMunicipio" text="Municipio" prefWidth="120"/>
+                <TableColumn fx:id="colZonaEjidal" text="Zona Ejidal" prefWidth="120"/>
+                <TableColumn fx:id="colUsuario" text="Usuario que registró" prefWidth="150"/>
+                <TableColumn fx:id="colObservaciones" text="Observaciones" prefWidth="120"/>
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>
