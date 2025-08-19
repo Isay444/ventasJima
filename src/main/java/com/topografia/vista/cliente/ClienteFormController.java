@@ -44,12 +44,13 @@ public class ClienteFormController {
             return;
         }
 
+
         if (cliente == null) {
             cliente = new Cliente();
         }
-        cliente.setNombre(txtNombre.getText());
-        cliente.setDireccion(txtDireccion.getText());
-        cliente.setTelefono(txtTelefono.getText());
+        cliente.setNombre(txtNombre.getText().toUpperCase());
+        cliente.setDireccion(txtDireccion.getText().toUpperCase());
+        cliente.setTelefono(txtTelefono.getText().toUpperCase());
         cliente.setEmail(txtEmail.getText());
 
         service.guardarCliente(cliente);

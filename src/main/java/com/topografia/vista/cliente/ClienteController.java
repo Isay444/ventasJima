@@ -56,8 +56,27 @@ public class ClienteController {
     public void eliminarCliente() {
         Cliente seleccionado = tablaClientes.getSelectionModel().getSelectedItem();
         if (seleccionado != null) {
-            service.eliminarCliente(seleccionado);
-            cargarClientes();
+            Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmacion.setTitle("Confirmación de eliminación");
+            confirmacion.setHeaderText("Eliminar Cliente");
+            confirmacion.setContentText("¿Esta seguro de eliminar el cliente?\n\n"
+                    + "Cliente: "+seleccionado.getNombre()+"\n"
+                    + "ADVERTENCIA: Esta acción también eliminará todas las órdenes asociadas ");
+            
+            //botones para confirmar o cancelar
+            ButtonType botonSi = new ButtonType("Sí", ButtonBar.ButtonData.OK_DONE);
+            ButtonType botonNo = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+            confirmacion.getButtonTypes().setAll(botonSi, botonNo);
+            
+            //mostrar y esperar respuesta
+            confirmacion.showAndWait().ifPresent(respuesta -> {
+                if(respuesta == botonSi){
+                    service.eliminarCliente(seleccionado);
+                    cargarClientes(); 
+                    mostrarAlerta("El cliente y sus ordenes relacionadas fueron eliminados correctamente");
+                }
+            });
+                     
         } else {
             mostrarAlerta("Seleccione un cliente para eliminar");
         }

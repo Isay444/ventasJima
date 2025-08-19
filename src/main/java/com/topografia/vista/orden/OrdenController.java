@@ -66,31 +66,31 @@ public class OrdenController {
     @FXML
     public void eliminarOrden() {
         Orden seleccionada = tablaOrdenes.getSelectionModel().getSelectedItem();
-    if (seleccionada != null) {
-        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacion.setTitle("Confirmación de eliminación");
-        confirmacion.setHeaderText("Eliminar Orden");
-        confirmacion.setContentText("¿Está seguro de que desea eliminar esta orden?\n\n" +
-                "Cliente: " + seleccionada.getCliente().getNombre() + "\n" +
-                "Servicio: " + seleccionada.getServicio().getNombre());
+        if (seleccionada != null) {
+            Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmacion.setTitle("Confirmación de eliminación");
+            confirmacion.setHeaderText("Eliminar Orden");
+            confirmacion.setContentText("¿Está seguro de que desea eliminar esta orden?\n\n"
+                    + "Cliente: " + seleccionada.getCliente().getNombre() + "\n"
+                    + "Servicio: " + seleccionada.getServicio().getNombre());
 
-        // Botones personalizados
-        ButtonType botonSi = new ButtonType("Sí", ButtonBar.ButtonData.OK_DONE);
-        ButtonType botonNo = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
-        confirmacion.getButtonTypes().setAll(botonSi, botonNo);
+            // Botones personalizados
+            ButtonType botonSi = new ButtonType("Sí", ButtonBar.ButtonData.OK_DONE);
+            ButtonType botonNo = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+            confirmacion.getButtonTypes().setAll(botonSi, botonNo);
 
-        // Mostrar y esperar respuesta
-        confirmacion.showAndWait().ifPresent(respuesta -> {
-            if (respuesta == botonSi) {
-                service.eliminar(seleccionada);
-                cargarOrdenes();
-                mostrarAlerta("La orden fue eliminada correctamente.");
-            }
-        });
+            // Mostrar y esperar respuesta
+            confirmacion.showAndWait().ifPresent(respuesta -> {
+                if (respuesta == botonSi) {
+                    service.eliminar(seleccionada);
+                    cargarOrdenes();
+                    mostrarAlerta("La orden fue eliminada correctamente.");
+                }
+            });
 
-    } else {
-        mostrarAlerta("Seleccione una orden para eliminar");
-    }
+        } else {
+            mostrarAlerta("Seleccione una orden para eliminar");
+        }
         
     }
     

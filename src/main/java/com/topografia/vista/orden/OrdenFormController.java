@@ -46,7 +46,7 @@ public class OrdenFormController {
         cbZonaEjidal.getItems().addAll(zonaRepo.findAll());
         cbUsuario.getItems().addAll(usuarioRepo.findAll());
 
-        //txtEstado.setText("Pendiente"); // valor por defecto
+        txtEstado.setText("S/N"); // valor por defecto
         //dpFecha.setValue(LocalDate.now()); // fecha por defecto
     }
     
@@ -99,8 +99,8 @@ public class OrdenFormController {
         orden.setZonaEjidal(cbZonaEjidal.getValue());
         orden.setUsuario(cbUsuario.getValue());
         orden.setFecha(dpFecha.getValue());
-        orden.setEstado(txtEstado.getText());
-        orden.setObservaciones(txtObservaciones.getText());
+        orden.setEstado(txtEstado.getText().toUpperCase());
+        orden.setObservaciones(txtObservaciones.getText().toUpperCase());
 
         service.guardar(orden);
         ordenController.cargarOrdenes();
