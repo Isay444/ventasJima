@@ -7,7 +7,7 @@ import jakarta.persistence.EntityManager;
 import java.util.List;
 
 public class ClienteRepository {
-////Esta funcion nueva
+
     public Cliente findById(Integer id) {
         EntityManager em = JPAUtil.getEMF().createEntityManager();
         try { return em.find(Cliente.class, id); }

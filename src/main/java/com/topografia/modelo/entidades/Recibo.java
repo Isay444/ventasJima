@@ -34,6 +34,14 @@ public class Recibo {
     public void setMetodo_pago(String metodo_pago) { this.metodo_pago = metodo_pago; }
     public Orden getOrden() { return orden; }
     public void setOrden(Orden orden) { this.orden = orden; }
+
+    public BigDecimal getMonto() {
+        return monto;
+    }
+
+    public void setMonto(BigDecimal monto) {
+        this.monto = monto;
+    }
     
     
     

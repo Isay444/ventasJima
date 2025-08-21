@@ -14,11 +14,11 @@
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor></Button>
-            <Button fx:id="btnRecibos" alignment="CENTER" contentDisplay="CENTER" depthTest="ENABLE" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#abrirRecibos" text="Recibos" textAlignment="CENTER">
+            <Button fx:id="btnOrdenes" alignment="CENTER" contentDisplay="CENTER" onAction="#abrirOrdenes" text="Órdenes" textAlignment="CENTER">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor></Button>
-            <Button fx:id="btnOrdenes" alignment="CENTER" contentDisplay="CENTER" onAction="#abrirOrdenes" text="Órdenes" textAlignment="CENTER">
+            <Button fx:id="btnRecibos" alignment="CENTER" contentDisplay="CENTER" depthTest="ENABLE" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#abrirRecibos" text="Recibos" textAlignment="CENTER">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor></Button>

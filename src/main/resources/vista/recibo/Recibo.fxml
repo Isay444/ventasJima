@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.topografia.vista.recibo.ReciboController">
 
+    <top>
+        <ToolBar>
+            <Button text="Nuevo Recibo" onAction="#nuevoRecibo"/>
+            <Button text="Editar Recibo" onAction="#editarRecibo"/>
+            <Button text="Eliminar Recibo" onAction="#eliminarRecibo"/>
+        </ToolBar>
+    </top>
+
     <center>
-        <Label text="Módulo de Recibos "
-               style="-fx-font-size: 16px; -fx-padding: 20;" />
+        <TableView fx:id="tablaRecibos">
+            <columns>
+                <TableColumn fx:id="colFecha" text="Fecha" prefWidth="100"/>
+                <TableColumn fx:id="colMonto" text="Monto" prefWidth="100"/>
+                <TableColumn fx:id="colMetodoPago" text="Método de Pago" prefWidth="150"/>
+                <TableColumn fx:id="colOrden" text="Orden Asociada" prefWidth="150"/>
+            </columns>
+        </TableView>
     </center>
+
 </BorderPane>
+

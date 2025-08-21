@@ -8,7 +8,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="347.0" prefWidth="258.0" spacing="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/24.0.1" 
+<VBox alignment="CENTER" prefHeight="347.0" prefWidth="258.0" spacing="10" 
+      xmlns:fx="http://javafx.com/fxml/1" 
+      xmlns="http://javafx.com/javafx/24.0.1" 
       fx:controller="com.topografia.vista.cliente.ClienteFormController">
     
     <padding>
@@ -33,7 +35,7 @@
       </cursor></TextField>
 
     <Label prefWidth="235.0" text="Teléfono" />
-    <TextField fx:id="txtTelefono">
+    <TextField fx:id="txtTelefono" >
       <cursor>
          <Cursor fx:constant="TEXT" />
       </cursor></TextField>

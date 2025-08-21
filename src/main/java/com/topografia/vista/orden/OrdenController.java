@@ -110,41 +110,7 @@ public class OrdenController {
         stage.setScene(scene);
         stage.showAndWait();
     }
-    
-    
-    /*
-    @FXML
-    public void abrirFormulario() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/orden/OrdenForm.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("Nueva Orden");
-            stage.setScene(new Scene(loader.load()));
-            stage.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }   
-    
-    
-    private void abrirFormulario(Cliente cliente) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/cliente/ClienteForm.fxml"));
-        Scene scene = new Scene(loader.load());
-
-        ClienteFormController controller = loader.getController();
-        controller.setCliente(cliente);
-        controller.setClienteService(service);
-        controller.setClienteController(this);
-
-        Stage stage = new Stage();
-        stage.setTitle(cliente == null ? "Nuevo Cliente" : "Editar Cliente");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(scene);
-        stage.showAndWait();
-    }
-    
-    */
-    
+        
 
     private void mostrarAlerta(String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
