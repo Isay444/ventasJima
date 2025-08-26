@@ -49,9 +49,6 @@
                <Cursor fx:constant="HAND" />
             </cursor></DatePicker>
 
-            <Label text="Estado:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-            <ComboBox fx:id="cbEstado" promptText="Seleccionar" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-
             <Label text="Observaciones:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
             <TextArea fx:id="txtObservaciones" prefRowCount="3" promptText="Informacion adicional importante" GridPane.columnIndex="1" GridPane.rowIndex="9" />
 

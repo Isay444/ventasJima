@@ -15,14 +15,11 @@ public class Orden {
     @Column
     private LocalDate fecha;
     
-    @Column(nullable = false, length = 50)
-    private String estado = "PENDIENTE";
-    
     @Column(nullable = true, columnDefinition = "TEXT")
     private String observaciones;
     
     //relaciones
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_clientes", nullable = false)
     private Cliente cliente;
     
@@ -50,104 +47,31 @@ public class Orden {
     @JoinColumn(name = "id_zona_ejidal", nullable = false)
     private ZonaEjidal zonaEjidal;
     
-    @OneToMany(mappedBy = "orden")
+    @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true)//
     private Set<Recibo> recibos;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public Ingeniero getIngeniero() {
-        return ingeniero;
-    }
-
-    public void setIngeniero(Ingeniero ingeniero) {
-        this.ingeniero = ingeniero;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public Municipio getMunicipio() {
-        return municipio;
-    }
-
-    public void setMunicipio(Municipio municipio) {
-        this.municipio = municipio;
-    }
-
-    public SubtipoTerreno getSubtipoTerreno() {
-        return subtipo_terreno;
-    }
-
-    public void setSubtipoTerreno(SubtipoTerreno subtipo_terreno) {
-        this.subtipo_terreno = subtipo_terreno;
-    }
-
-    public Servicio getServicio() {
-        return servicio;
-    }
-
-    public void setServicio(Servicio servicio) {
-        this.servicio = servicio;
-    }
-
-    public ZonaEjidal getZonaEjidal() {
-        return zonaEjidal;
-    }
-
-    public void setZonaEjidal(ZonaEjidal zonaEjidal) {
-        this.zonaEjidal = zonaEjidal;
-    }
-
-    public Set<Recibo> getRecibos() {
-        return recibos;
-    }
-
-    public void setRecibos(Set<Recibo> recibos) {
-        this.recibos = recibos;
-    }
-    
-    
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+    public LocalDate getFecha() { return fecha; }
+    public void setFecha(LocalDate fecha) { this.fecha = fecha; }
+    public String getObservaciones() { return observaciones; }
+    public void setObservaciones(String observaciones) { this.observaciones = observaciones; }
+    public Cliente getCliente() { return cliente; }
+    public void setCliente(Cliente cliente) { this.cliente = cliente; }
+    public Ingeniero getIngeniero() { return ingeniero; }
+    public void setIngeniero(Ingeniero ingeniero) { this.ingeniero = ingeniero; }
+    public Usuario getUsuario() { return usuario; }
+    public void setUsuario(Usuario usuario) { this.usuario = usuario; }
+    public Municipio getMunicipio() { return municipio; }
+    public void setMunicipio(Municipio municipio) { this.municipio = municipio; }
+    public SubtipoTerreno getSubtipoTerreno() { return subtipo_terreno; }
+    public void setSubtipoTerreno(SubtipoTerreno subtipo_terreno) { this.subtipo_terreno = subtipo_terreno; }
+    public Servicio getServicio() { return servicio; }
+    public void setServicio(Servicio servicio) { this.servicio = servicio; }
+    public ZonaEjidal getZonaEjidal() { return zonaEjidal; }
+    public void setZonaEjidal(ZonaEjidal zonaEjidal) { this.zonaEjidal = zonaEjidal; }
+    public Set<Recibo> getRecibos() { return recibos; }
+    public void setRecibos(Set<Recibo> recibos) { this.recibos = recibos; }
+    public SubtipoTerreno getSubtipo_terreno() { return subtipo_terreno; }
+    public void setSubtipo_terreno(SubtipoTerreno subtipo_terreno) { this.subtipo_terreno = subtipo_terreno; }
 }

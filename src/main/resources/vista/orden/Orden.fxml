@@ -19,8 +19,8 @@
     <center>
         <TableView fx:id="tablaOrdenes">
             <columns>
+                <TableColumn fx:id="colId" text="# Orden" prefWidth="40"/>
                 <TableColumn fx:id="colFecha" text="Fecha" prefWidth="100"/>
-                <TableColumn fx:id="colEstado" text="Estado" prefWidth="120"/>
                 <TableColumn fx:id="colCliente" text="Cliente" prefWidth="150"/>
                 <TableColumn fx:id="colServicio" text="Servicio" prefWidth="180"/>
                 <TableColumn fx:id="colIngeniero" text="Ingeniero" prefWidth="150"/>

@@ -17,7 +17,10 @@ public class Municipio {
     
     @OneToMany(mappedBy = "municipio")
     private Set<Orden> ordenes;
-
+    
+    //Relacion con CLiente??
+    //@OneToMany(mappedBy = "municipio")
+    //private Set<Cliente> cliente;
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
     public String getNombre() { return nombre; }

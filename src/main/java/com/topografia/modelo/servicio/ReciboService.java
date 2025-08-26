@@ -3,6 +3,7 @@ package com.topografia.modelo.servicio;
 
 import com.topografia.modelo.dao.ReciboRepository;
 import com.topografia.modelo.entidades.Recibo;
+import com.topografia.utils.ValidadorRecibo;
 import java.util.List;
 
 
@@ -13,7 +14,9 @@ public class ReciboService {
         return repo.findAll();
     }
     
-    public void guardar(Recibo recibo){
+    public void guardar(Recibo recibo) {
+        ValidadorRecibo.validar(recibo); 
+        recibo.calcularTotales();
         repo.save(recibo);
     }
     

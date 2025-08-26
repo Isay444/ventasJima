@@ -21,7 +21,6 @@ public class OrdenFormController {
     @FXML private ComboBox<Usuario> cbUsuario;
 
     @FXML private DatePicker dpFecha;
-    @FXML private ComboBox<String> cbEstado;
     @FXML private TextArea txtObservaciones;
 
     private final ClienteRepository clienteRepo = new ClienteRepository();
@@ -46,8 +45,7 @@ public class OrdenFormController {
         cbZonaEjidal.getItems().addAll(zonaRepo.findAll());
         cbUsuario.getItems().addAll(usuarioRepo.findAll());
 
-        cbEstado.getItems().addAll("PAGADO", "PENDIENTE", "PARCIAL");
-        //dpFecha.setValue(LocalDate.now()); // fecha por defecto
+        dpFecha.setValue(LocalDate.now()); // fecha por defecto
     }
     
     
@@ -61,7 +59,6 @@ public class OrdenFormController {
             cbMunicipio.setValue(orden.getMunicipio());
             cbZonaEjidal.setValue(orden.getZonaEjidal());
             cbUsuario.setValue(orden.getUsuario());
-            cbEstado.setValue(orden.getEstado());
             dpFecha.setValue(orden.getFecha());
         }
     }
@@ -82,15 +79,13 @@ public class OrdenFormController {
         if (cbZonaEjidal.getItems().isEmpty() || cbUsuario.getItems().isEmpty() || 
             cbSubtipoTerreno.getItems().isEmpty() || cbCliente.getItems().isEmpty() || 
             cbIngeniero.getItems().isEmpty() || cbMunicipio.getItems().isEmpty() ||
-            cbServicio.getItems().isEmpty() || dpFecha.getValue() == null || 
-            cbEstado.getValue().isEmpty()){
+            cbServicio.getItems().isEmpty() || dpFecha.getValue() == null) {
             mostrarAlerta("Algunos campos estan vacíos");
             return;
         }
         
         if (orden == null) {
             orden = new Orden();
-            orden.setEstado("Pendiente");
             orden.setFecha(LocalDate.now());
         }
         
@@ -102,7 +97,7 @@ public class OrdenFormController {
         orden.setZonaEjidal(cbZonaEjidal.getValue());
         orden.setUsuario(cbUsuario.getValue());
         orden.setFecha(dpFecha.getValue());
-        orden.setEstado(cbEstado.getValue());
+        
         orden.setObservaciones(txtObservaciones.getText().toUpperCase());
 
         service.guardar(orden);

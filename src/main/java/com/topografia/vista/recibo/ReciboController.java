@@ -20,6 +20,12 @@ public class ReciboController {
     @FXML private TableColumn<Recibo, String> colMetodoPago;
     @FXML private TableColumn<Recibo, String> colOrden;
     
+    @FXML private TableColumn<Recibo, String> colEstado;
+    @FXML private TableColumn<Recibo, String> colAnticipo;
+    @FXML private TableColumn<Recibo, String> colAnticipoDos;
+    @FXML private TableColumn<Recibo, String> colResto;
+    @FXML private TableColumn<Recibo, String> colSaldo;   
+    
     private final ReciboService service = new ReciboService();
     
     @FXML
@@ -28,6 +34,12 @@ public class ReciboController {
         colMonto.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getMonto().toString()));
         colMetodoPago.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getMetodo_pago()));
         colOrden.setCellValueFactory(c -> new SimpleStringProperty("Orden #" + c.getValue().getOrden().getId()));
+        
+        colEstado.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEstadoPago()));
+        colAnticipo.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getAnticipo() != null ? c.getValue().getAnticipo().toString() : "0.00"));
+        colAnticipoDos.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getAnticipoDos() != null ? c.getValue().getAnticipoDos().toString() : "0.00"));
+        colResto.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getResto().toString() != null ? c.getValue().getResto().toString() : "0.00"));
+        colSaldo.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getSaldo().toString() != null ? c.getValue().getSaldo().toString() : "0.00"));
         cargarRecibos();
     }
 

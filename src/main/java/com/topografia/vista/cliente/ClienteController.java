@@ -48,7 +48,7 @@ public class ClienteController {
         if (seleccionado != null) {
             abrirFormulario(seleccionado);
         } else {
-            mostrarAlerta("Seleccione un cliente para editar");
+            mostrarAlerta("Seleccione un cliente para editar", Alert.AlertType.WARNING);
         }
     }
 
@@ -73,12 +73,12 @@ public class ClienteController {
                 if(respuesta == botonSi){
                     service.eliminarCliente(seleccionado);
                     cargarClientes(); 
-                    mostrarAlerta("El cliente y sus ordenes relacionadas fueron eliminados correctamente");
+                    mostrarAlerta("El cliente y sus ordenes relacionadas fueron eliminados correctamente", Alert.AlertType.INFORMATION);
                 }
             });
                      
         } else {
-            mostrarAlerta("Seleccione un cliente para eliminar");
+            mostrarAlerta("Seleccione un cliente para eliminar", Alert.AlertType.ERROR);
         }
     }
 
@@ -98,9 +98,10 @@ public class ClienteController {
         stage.showAndWait();
     }
 
-    private void mostrarAlerta(String msg) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+    private void mostrarAlerta(String msg, Alert.AlertType type) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText(msg);
+        alert.setAlertType(type);
         alert.showAndWait();
     }
 }

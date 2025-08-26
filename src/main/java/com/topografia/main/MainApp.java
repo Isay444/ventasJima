@@ -17,12 +17,11 @@ public class MainApp extends Application{
             return;
         }
         Scene scene = new Scene(loader.load());
-        
+        //scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         stage.setTitle("Topografía - Login");
         stage.setScene(scene);
         stage.show();
-        
-        //scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+       
     }
     
     public static void main(String[] args) {
