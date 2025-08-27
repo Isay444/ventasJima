@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<persistence
+  xmlns="https://jakarta.ee/xml/ns/persistence"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  version="3.0"
+  xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+  
+  <persistence-unit name="TopografiaPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    
+    <!-- ✅ TODAS LAS ENTIDADES HASTA EL MOMENTO -->
+    <class>com.topografia.modelo.entidades.Usuario</class>
+    <class>com.topografia.modelo.entidades.Cliente</class>
+    <class>com.topografia.modelo.entidades.Orden</class>
+    <class>com.topografia.modelo.entidades.Recibo</class>
+    <class>com.topografia.modelo.entidades.Ingeniero</class>
+    <class>com.topografia.modelo.entidades.Municipio</class>
+    <class>com.topografia.modelo.entidades.Servicio</class>
+    <class>com.topografia.modelo.entidades.SubtipoTerreno</class>
+    <class>com.topografia.modelo.entidades.TipoTerreno</class>
+    <class>com.topografia.modelo.entidades.TipoServicio</class>
+    <class>com.topografia.modelo.entidades.ZonaEjidal</class>
+    
+    <properties>
+      <!-- ✅ Conexión MySQL -->
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/topografia?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true"/>
+      <property name="jakarta.persistence.jdbc.user" value="root"/>
+      <property name="jakarta.persistence.jdbc.password" value="root"/>
+      <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      
+      <!-- ✅ Configuración Hibernate -->
+      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+      <property name="hibernate.hbm2ddl.auto" value="validate"/>
+      
+      <!-- ✅ Para debugging -->
+      <property name="hibernate.show_sql" value="false"/>
+      <property name="hibernate.format_sql" value="true"/>
+      
+      <!-- ✅ Configuraciones básicas -->
+      <property name="hibernate.connection.autocommit" value="false"/>
+      <property name="hibernate.jdbc.batch_size" value="20"/>
+      
+      <!-- ✅ Pool de conexiones BÁSICO (sin HikariCP) -->
+      <property name="hibernate.connection.pool_size" value="5"/>
+      
+      <!-- ✅ Cache deshabilitado para evitar problemas -->
+      <property name="hibernate.cache.use_second_level_cache" value="false"/>
+      <property name="hibernate.cache.use_query_cache" value="false"/>
+      
+    </properties>
+  </persistence-unit>
+</persistence>
