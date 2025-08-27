@@ -47,7 +47,7 @@ public class Orden {
     @JoinColumn(name = "id_zona_ejidal", nullable = false)
     private ZonaEjidal zonaEjidal;
     
-    @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true)//
+    @OneToMany(mappedBy = "orden")
     private Set<Recibo> recibos;
 
     public Integer getId() { return id; }

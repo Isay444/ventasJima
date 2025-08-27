@@ -2,8 +2,10 @@ package com.topografia.vista.orden;
 
 import com.topografia.modelo.entidades.Orden;
 import com.topografia.modelo.servicio.OrdenService;
+import com.topografia.utils.TableFilter;
 import java.io.IOException;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -23,30 +25,52 @@ public class OrdenController {
     @FXML private TableColumn<Orden, String> colZonaEjidal;
     @FXML private TableColumn<Orden, String> colMunicipio;
     @FXML private TableColumn<Orden, String> colSubTerreno;
+
+    @FXML private TextField txtBuscar;
+    @FXML private ComboBox<String> cbFiltro;
     
     private final OrdenService service = new OrdenService();
+    private ObservableList<Orden> ordenes;
+    private TableFilter<Orden> filtro;
     
     @FXML
     public void initialize() {
+        ordenes = FXCollections.observableArrayList(service.listar());
+        cbFiltro.getItems().addAll("Cliente", "Servicio", "Ingeniero", "Fecha");
+        cbFiltro.setValue("Cliente");
+
+        filtro = new TableFilter<>(ordenes);
+        filtro.conectar(
+                txtBuscar,
+                cbFiltro,
+                tablaOrdenes,
+                o -> o.getCliente().getNombre(),
+                o -> o.getServicio().getNombre(),
+                o -> o.getIngeniero().getNombre(),
+                o -> o.getFecha().toString()
+        );
+        configurarColumnas();
+    }
+    
+    private void configurarColumnas() {
         colId.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getId() != null ? c.getValue().getId().toString() : ""));
-        colFecha.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getFecha() != null ? c.getValue().getFecha().toString() : ""));        
-        colCliente.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty( c.getValue().getCliente() != null ? c.getValue().getCliente().getNombre() : ""));
-        colServicio.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty( c.getValue().getServicio() != null ? c.getValue().getServicio().getNombre() : ""));
-        colIngeniero.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty( c.getValue().getIngeniero() != null ? c.getValue().getIngeniero().getNombre() : ""));
-        colObservaciones.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty( c.getValue().getObservaciones() != null ? c.getValue().getObservaciones() : ""));
-        colUsuario.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty( c.getValue().getUsuario() != null ? c.getValue().getUsuario().getNombre() : ""));
-        colZonaEjidal.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty( c.getValue().getZonaEjidal() != null ? c.getValue().getZonaEjidal().getNombre() : ""));
-        colMunicipio.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty( c.getValue().getMunicipio() != null ? c.getValue().getMunicipio().getNombre() : ""));
-        colSubTerreno.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty( c.getValue().getSubtipoTerreno() != null ? c.getValue().getSubtipoTerreno().getNombre() : ""));
-        
-        cargarOrdenes();
+        colFecha.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getFecha() != null ? c.getValue().getFecha().toString() : ""));
+        colCliente.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getCliente() != null ? c.getValue().getCliente().getNombre() : ""));
+        colServicio.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getServicio() != null ? c.getValue().getServicio().getNombre() : ""));
+        colIngeniero.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getIngeniero() != null ? c.getValue().getIngeniero().getNombre() : ""));
+        colObservaciones.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getObservaciones() != null ? c.getValue().getObservaciones() : ""));
+        colUsuario.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getUsuario() != null ? c.getValue().getUsuario().getNombre() : ""));
+        colZonaEjidal.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getZonaEjidal() != null ? c.getValue().getZonaEjidal().getNombre() : ""));
+        colMunicipio.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getMunicipio() != null ? c.getValue().getMunicipio().getNombre() : ""));
+        colSubTerreno.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getSubtipoTerreno() != null ? c.getValue().getSubtipoTerreno().getNombre() : ""));
     }
     
     @FXML
     public void cargarOrdenes() {
         try {
             //System.out.println("🔄 Cargando órdenes...");
-            tablaOrdenes.setItems(FXCollections.observableArrayList(service.listar()));
+            //tablaOrdenes.setItems(FXCollections.observableArrayList(service.listar()));
+            ordenes.setAll(service.listar());
             //System.out.println("✅ Órdenes cargadas: " + tablaOrdenes.getItems().size() + " registros");
         } catch (Exception e) {
             //System.err.println("❌ Error cargando órdenes: " + e.getMessage());
@@ -78,12 +102,11 @@ public class OrdenController {
             return;
         }
 
-        // ✅ CORREGIDO: Cambio de "recibo" a "orden" en el mensaje
         String mensaje = "¿Está seguro de eliminar esta ORDEN?" +
-                "\n\nCliente: " + (seleccionada.getCliente() != null ? seleccionada.getCliente().getNombre() : "N/A") +
+                "\nCliente: " + (seleccionada.getCliente() != null ? seleccionada.getCliente().getNombre() : "N/A") +
                 "\nServicio: " + (seleccionada.getServicio() != null ? seleccionada.getServicio().getNombre() : "N/A") +
                 "\nFecha: " + (seleccionada.getFecha() != null ? seleccionada.getFecha().toString() : "N/A") +
-                "\nID: " + seleccionada.getId();
+                "\t#Orden: " + seleccionada.getId() + "\nNota: Al eliminar esta orden también se eliminarán sus recibos relacionados.";
 
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION, mensaje, ButtonType.YES, ButtonType.NO);
         confirmacion.setTitle("Confirmar Eliminación");
@@ -94,21 +117,16 @@ public class OrdenController {
                 try {
                     System.out.println("🗑️ Usuario confirmó eliminar orden ID=" + seleccionada.getId());
                     
-                    // ✅ MEJORADO: Manejo de errores más robusto
-                    service.eliminar(seleccionada);
-                    
+                    //Manejo de errores más robusto
+                    service.eliminar(seleccionada);                   
                     // Recargar la tabla
                     cargarOrdenes();
-                    
                     // ✅ CORREGIDO: Mensaje de éxito específico para órdenes
-                    mostrarAlerta("La orden fue eliminada correctamente", Alert.AlertType.INFORMATION);
-                    
-                    System.out.println("✅ Proceso de eliminación completado exitosamente");
-                    
+                    mostrarAlerta("La orden fue eliminada correctamente", Alert.AlertType.INFORMATION);                    
+                    System.out.println("✅ Proceso de eliminación completado exitosamente");                    
                 } catch (Exception e) {
                     System.err.println("❌ Error eliminando orden en controlador: " + e.getMessage());
-                    e.printStackTrace();
-                    
+                    e.printStackTrace();                    
                     // Mostrar error específico al usuario
                     String errorMsg = "No se pudo eliminar la orden";
                     if (e.getMessage().contains("foreign key constraint")) {
@@ -142,7 +160,6 @@ public class OrdenController {
         stage.showAndWait();
     }      
 
-    // ✅ MEJORADO: Método más flexible para mostrar alertas
     private void mostrarAlerta(String msg) {
         mostrarAlerta(msg, Alert.AlertType.INFORMATION);
     }
