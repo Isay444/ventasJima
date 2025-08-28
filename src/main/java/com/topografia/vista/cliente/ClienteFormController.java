@@ -163,6 +163,12 @@ public class ClienteFormController {
     private boolean validarFormulario() {
         // Campos obligatorios
         if (!Validador.validarTextoNoVacio(txtNombre.getText(), "Nombre")) return false;
+        if (!Validador.validarTextoNoVacio(txtColonia.getText(), "Colonia")) return false;
+        if (!Validador.validarTextoNoVacio(txtLocalidad.getText(), "Localidad")) return false;
+        if (cbMunicipio.getValue() == null){
+            mostrarMensaje("El campo Municipio es obligatorio", Alert.AlertType.NONE);
+            return false;
+        }
         if (!Validador.validarTelefono(txtTelefono.getText())) return false;
         if (!Validador.validarEmail(txtEmail.getText())) return false;
 

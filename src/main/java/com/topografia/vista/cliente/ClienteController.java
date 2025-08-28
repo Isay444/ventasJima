@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import javafx.collections.ObservableList;
+import com.topografia.utils.TableFilter;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,16 +22,38 @@ public class ClienteController {
     @FXML private TableColumn<Cliente, String> colDireccion;
     @FXML private TableColumn<Cliente, String> colTelefono;
     @FXML private TableColumn<Cliente, String> colEmail;
+    
+    @FXML private TextField txtBuscar;
+    @FXML private ComboBox<String> cbFiltro;
+    private ObservableList<Cliente> clientes;
+    private TableFilter<Cliente> filtro;
 
     private final ClienteService service = new ClienteService();
 
     @FXML
     public void initialize() {
+        clientes = FXCollections.observableArrayList(service.listarClientes());
+        cbFiltro.getItems().addAll("Nombre", "Direccion", "Telefono", "Email");
+        cbFiltro.setValue("Aplicar filtro");
+        
+        filtro = new TableFilter<>(clientes);
+        filtro.conectar(
+                txtBuscar, 
+                cbFiltro, 
+                tablaClientes, 
+                o -> o.getNombre(),
+                o -> o.getDireccionCompleta(),
+                o -> o.getTelefono(),
+                o -> o.getEmail());
+        
+        configurarColumnas();
+    }
+    
+    private void configurarColumnas(){
         colNombre.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getNombre()));
         colDireccion.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getDireccion()));
         colTelefono.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getTelefono()));
         colEmail.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getEmail()));
-        cargarClientes();
     }
 
     @FXML

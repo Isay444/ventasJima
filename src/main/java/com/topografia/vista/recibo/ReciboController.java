@@ -3,9 +3,11 @@ package com.topografia.vista.recibo;
 
 import com.topografia.modelo.entidades.Recibo;
 import com.topografia.modelo.servicio.ReciboService;
+import com.topografia.utils.TableFilter;
 import java.io.IOException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -26,21 +28,41 @@ public class ReciboController {
     @FXML private TableColumn<Recibo, String> colResto;
     @FXML private TableColumn<Recibo, String> colSaldo;   
     
+    @FXML private TextField txtBuscar;
+    @FXML private ComboBox<String> cbFiltro;
+    private ObservableList<Recibo> recibos;
+    private TableFilter<Recibo> filtro;
+    
     private final ReciboService service = new ReciboService();
     
     @FXML
     public void initialize() {
+        recibos = FXCollections.observableArrayList(service.listar());
+        cbFiltro.getItems().addAll("Fecha", "Metodo de Pago", "Estado de pago (Parcial/Pagado)");
+        cbFiltro.setValue("Aplicar filtro");
+        
+        filtro = new TableFilter<>(recibos);
+        filtro.conectar(
+                txtBuscar,
+                cbFiltro, 
+                tablaRecibos,
+                o -> o.getFecha().toString(),
+                o -> o.getMetodo_pago(),
+                o -> o.getEstadoPago()
+        );
+        configurarColumnas();
+    }
+    
+    private void configurarColumnas(){
         colFecha.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFecha().toString()));
         colMonto.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getMonto().toString()));
         colMetodoPago.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getMetodo_pago()));
-        colOrden.setCellValueFactory(c -> new SimpleStringProperty("Orden #" + c.getValue().getOrden().getId()));
-        
+        colOrden.setCellValueFactory(c -> new SimpleStringProperty("Orden #" + c.getValue().getOrden().getId()));        
         colEstado.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEstadoPago()));
         colAnticipo.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getAnticipo() != null ? c.getValue().getAnticipo().toString() : "0.00"));
         colAnticipoDos.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getAnticipoDos() != null ? c.getValue().getAnticipoDos().toString() : "0.00"));
         colResto.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getResto().toString() != null ? c.getValue().getResto().toString() : "0.00"));
         colSaldo.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getSaldo().toString() != null ? c.getValue().getSaldo().toString() : "0.00"));
-        cargarRecibos();
     }
 
     @FXML

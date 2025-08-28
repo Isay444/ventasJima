@@ -75,9 +75,9 @@ public class Recibo {
         if (saldo.compareTo(BigDecimal.ZERO) == 0) {
             this.estadoPago = "PAGADO";
         } else if (saldo.compareTo(monto) == 0) {
-            this.estadoPago = "PENDIENTE";
-        } else {
             this.estadoPago = "PARCIAL";
+        } else {
+            this.estadoPago = "PENDIENTE";
         }
     }
 

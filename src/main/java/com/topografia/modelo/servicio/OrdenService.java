@@ -6,8 +6,7 @@ import java.util.List;
 
 public class OrdenService {
     private final OrdenRepository repo = new OrdenRepository();
-    
-    // ✅ CORREGIDO: finAll() -> findAll()
+
     public List<Orden> listar(){
         return repo.findAll();
     }
@@ -17,7 +16,6 @@ public class OrdenService {
     }
     
     public void guardar(Orden orden){
-        // ✅ AÑADIDO: Validación básica antes de guardar
         if (orden == null) {
             throw new IllegalArgumentException("La orden no puede ser nula");
         }
@@ -33,7 +31,6 @@ public class OrdenService {
     }
     
     public void eliminar(Orden orden){
-        // ✅ AÑADIDO: Validaciones antes de eliminar
         if (orden == null) {
             throw new IllegalArgumentException("La orden no puede ser nula");
         }
