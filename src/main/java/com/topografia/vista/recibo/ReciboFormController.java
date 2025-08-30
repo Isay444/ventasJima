@@ -167,6 +167,7 @@ public class ReciboFormController {
             mostrarAlerta("Error de validación: " + e.getMessage());
         } catch (Exception e) {
             mostrarAlerta("Error al guardar el recibo: " + e.getMessage());
+            System.out.println(e);
         }
 
     }

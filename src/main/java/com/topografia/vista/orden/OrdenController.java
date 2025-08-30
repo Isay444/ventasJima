@@ -1,9 +1,12 @@
 package com.topografia.vista.orden;
 
 import com.topografia.modelo.entidades.Orden;
+import com.topografia.modelo.entidades.Orden.EstatusOrden;
 import com.topografia.modelo.servicio.OrdenService;
 import com.topografia.utils.TableFilter;
 import java.io.IOException;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -28,6 +31,13 @@ public class OrdenController {
 
     @FXML private TextField txtBuscar;
     @FXML private ComboBox<String> cbFiltro;
+    
+     // 🔹 Nuevas columnas
+    @FXML private TableColumn<Orden, String> colFechaLevantamiento;
+    @FXML private TableColumn<Orden, String> colFechaEntregaPlano;
+    @FXML private TableColumn<Orden, String> colSolicitoFactura;
+    @FXML private TableColumn<Orden, String> colEstatus;
+    @FXML private TableColumn<Orden, String> colPlanoRuta;
     
     private final OrdenService service = new OrdenService();
     private ObservableList<Orden> ordenes;
@@ -63,6 +73,46 @@ public class OrdenController {
         colZonaEjidal.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getZonaEjidal() != null ? c.getValue().getZonaEjidal().getNombre() : ""));
         colMunicipio.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getMunicipio() != null ? c.getValue().getMunicipio().getNombre() : ""));
         colSubTerreno.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getSubtipoTerreno() != null ? c.getValue().getSubtipoTerreno().getNombre() : ""));
+        
+        // 🔹 Nuevas columnas
+        colFechaLevantamiento.setCellValueFactory(c
+                -> new SimpleStringProperty(
+                        c.getValue().getFechaLevantamiento() != null
+                        ? c.getValue().getFechaLevantamiento().toString()
+                        : ""
+                )
+        );
+
+        colFechaEntregaPlano.setCellValueFactory(c
+                -> new SimpleStringProperty(
+                        c.getValue().getFechaEntregaPlano() != null
+                        ? c.getValue().getFechaEntregaPlano().toString()
+                        : ""
+                )
+        );
+
+        colSolicitoFactura.setCellValueFactory(c
+                -> new SimpleStringProperty(
+                        Boolean.TRUE.equals(c.getValue().getSolicitoFactura()) ? "Sí" : "No"
+                )
+        );
+
+        colEstatus.setCellValueFactory(c
+                -> new SimpleStringProperty(
+                        c.getValue().getEstatus() != null
+                        ? c.getValue().getEstatus().toString()
+                        : ""
+                )
+        );
+
+        colPlanoRuta.setCellValueFactory(c
+                -> new SimpleStringProperty(
+                        c.getValue().getPlanoRuta() != null
+                        ? c.getValue().getPlanoRuta()
+                        : ""
+                )
+        );
+
     }
     
     @FXML

@@ -3,11 +3,13 @@ package com.topografia.vista.orden;
 
 import com.topografia.modelo.dao.*;
 import com.topografia.modelo.entidades.*;
+import com.topografia.modelo.entidades.Orden.EstatusOrden;
 import com.topografia.modelo.servicio.OrdenService;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.time.LocalDate;
+import javafx.collections.FXCollections;
 import javafx.stage.Stage;
 
 public class OrdenFormController {
@@ -22,7 +24,14 @@ public class OrdenFormController {
 
     @FXML private DatePicker dpFecha;
     @FXML private TextArea txtObservaciones;
-
+    
+    @FXML private DatePicker dpFechaEntregaPlano;
+    @FXML private DatePicker dpFechaLevantamiento;
+    @FXML private CheckBox chkSolicitaFactura;
+    @FXML private ComboBox<EstatusOrden> cbEstatus;
+    @FXML private TextField txtPlanoRuta;
+    //@FXML private TextArea txtplanoDescripcion; 
+    
     private final ClienteRepository clienteRepo = new ClienteRepository();
     private final ServicioRepository servicioRepo = new ServicioRepository();
     private final IngenieroRepository ingenieroRepo = new IngenieroRepository();
@@ -46,6 +55,9 @@ public class OrdenFormController {
         cbUsuario.getItems().addAll(usuarioRepo.findAll());
 
         dpFecha.setValue(LocalDate.now()); // fecha por defecto
+        cbEstatus.setItems(FXCollections.observableArrayList(EstatusOrden.values()));
+        cbEstatus.setValue(EstatusOrden.ACTIVA);
+
     }
     
     
@@ -60,6 +72,13 @@ public class OrdenFormController {
             cbZonaEjidal.setValue(orden.getZonaEjidal());
             cbUsuario.setValue(orden.getUsuario());
             dpFecha.setValue(orden.getFecha());
+            
+            dpFechaLevantamiento.setValue(orden.getFechaLevantamiento());
+            dpFechaEntregaPlano.setValue(orden.getFechaEntregaPlano());
+            chkSolicitaFactura.setSelected(Boolean.TRUE.equals(orden.getSolicitoFactura()));
+            cbEstatus.setValue(orden.getEstatus());
+            txtPlanoRuta.setText(orden.getPlanoRuta());
+
         }
     }
     
@@ -97,6 +116,13 @@ public class OrdenFormController {
         orden.setZonaEjidal(cbZonaEjidal.getValue());
         orden.setUsuario(cbUsuario.getValue());
         orden.setFecha(dpFecha.getValue());
+        
+        // Nuevos campos
+        orden.setFechaLevantamiento(dpFechaLevantamiento.getValue());
+        orden.setFechaEntregaPlano(dpFechaEntregaPlano.getValue());
+        orden.setSolicitoFactura(chkSolicitaFactura.isSelected());
+        orden.setEstatus(cbEstatus.getValue());
+        orden.setPlanoRuta(txtPlanoRuta.getText());
         
         orden.setObservaciones(txtObservaciones.getText().toUpperCase());
 

@@ -18,6 +18,31 @@ public class Orden {
     @Column(nullable = true, columnDefinition = "TEXT")
     private String observaciones;
     
+    @Column(name = "fecha_entrega_plano")
+    private LocalDate fechaEntregaPlano; // Debe igualar fecha pago final
+
+    @Column(name = "fecha_levantamiento")
+    private LocalDate fechaLevantamiento; // Igualar al primer anticipo
+
+    @Column(name = "solicito_factura", nullable = false)
+    private Boolean solicitoFactura = false;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estatus", length = 20, nullable = false)
+    private EstatusOrden estatus = EstatusOrden.ACTIVA;
+
+    // Información del plano topográfico
+    @Column(name = "plano_ruta", length = 255)
+    private String planoRuta; // Ruta o nombre del archivo
+
+    //@Column(name = "plano_descripcion", columnDefinition = "TEXT")
+    //private String planoDescripcion;
+
+    // Enum para estatus
+    public enum EstatusOrden {
+        ACTIVA, CANCELADA, TERMINADA
+    }
+    
     //relaciones
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_clientes", nullable = false)
@@ -47,7 +72,7 @@ public class Orden {
     @JoinColumn(name = "id_zona_ejidal", nullable = false)
     private ZonaEjidal zonaEjidal;
     
-    @OneToMany(mappedBy = "orden")
+    @OneToMany(mappedBy = "orden", fetch = FetchType.EAGER)
     private Set<Recibo> recibos;
 
     public Integer getId() { return id; }
@@ -74,4 +99,45 @@ public class Orden {
     public void setRecibos(Set<Recibo> recibos) { this.recibos = recibos; }
     public SubtipoTerreno getSubtipo_terreno() { return subtipo_terreno; }
     public void setSubtipo_terreno(SubtipoTerreno subtipo_terreno) { this.subtipo_terreno = subtipo_terreno; }
+
+    public LocalDate getFechaEntregaPlano() {
+        return fechaEntregaPlano;
+    }
+
+    public void setFechaEntregaPlano(LocalDate fechaEntregaPlano) {
+        this.fechaEntregaPlano = fechaEntregaPlano;
+    }
+
+    public LocalDate getFechaLevantamiento() {
+        return fechaLevantamiento;
+    }
+
+    public void setFechaLevantamiento(LocalDate fechaLevantamiento) {
+        this.fechaLevantamiento = fechaLevantamiento;
+    }
+
+    public Boolean getSolicitoFactura() {
+        return solicitoFactura;
+    }
+
+    public void setSolicitoFactura(Boolean solicitoFactura) {
+        this.solicitoFactura = solicitoFactura;
+    }
+
+    public EstatusOrden getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(EstatusOrden estatus) {
+        this.estatus = estatus;
+    }
+
+    public String getPlanoRuta() {
+        return planoRuta;
+    }
+
+    public void setPlanoRuta(String planoRuta) {
+        this.planoRuta = planoRuta;
+    }
+
 }
