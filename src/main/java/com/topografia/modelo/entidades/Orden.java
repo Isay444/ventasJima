@@ -1,7 +1,9 @@
 
 package com.topografia.modelo.entidades;
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,6 +20,23 @@ public class Orden {
     @Column(nullable = true, columnDefinition = "TEXT")
     private String observaciones;
     
+    @Column(name = "monto_total", nullable = false)
+    private BigDecimal montoTotal;
+
+    @Column(name = "fecha_levantamiento")
+    private LocalDate fechaLevantamiento;
+
+    @Column(name = "fecha_entrega_plano")
+    private LocalDate fechaEntregaPlano;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estatus", nullable = false)
+    private EstatusOrden estatus = EstatusOrden.ACTIVA;
+    
+    public enum EstatusOrden {
+        ACTIVA, CANCELADA, TERMINADA
+    }
+
     //relaciones
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_clientes", nullable = false)
@@ -47,8 +66,8 @@ public class Orden {
     @JoinColumn(name = "id_zona_ejidal", nullable = false)
     private ZonaEjidal zonaEjidal;
     
-    @OneToMany(mappedBy = "orden")
-    private Set<Recibo> recibos;
+    @OneToMany(mappedBy = "orden", fetch = FetchType.LAZY)
+    private Set<Recibo> recibos = new HashSet<>();
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
@@ -74,4 +93,29 @@ public class Orden {
     public void setRecibos(Set<Recibo> recibos) { this.recibos = recibos; }
     public SubtipoTerreno getSubtipo_terreno() { return subtipo_terreno; }
     public void setSubtipo_terreno(SubtipoTerreno subtipo_terreno) { this.subtipo_terreno = subtipo_terreno; }
+
+    public BigDecimal getMontoTotal() {
+        return montoTotal;
+    }
+    public void setMontoTotal(BigDecimal montoTotal) {
+        this.montoTotal = montoTotal;
+    }
+    public LocalDate getFechaLevantamiento() {
+        return fechaLevantamiento;
+    }
+    public void setFechaLevantamiento(LocalDate fechaLevantamiento) {
+        this.fechaLevantamiento = fechaLevantamiento;
+    }
+    public LocalDate getFechaEntregaPlano() {
+        return fechaEntregaPlano;
+    }
+    public void setFechaEntregaPlano(LocalDate fechaEntregaPlano) {
+        this.fechaEntregaPlano = fechaEntregaPlano;
+    }
+    public EstatusOrden getEstatus() {
+        return estatus;
+    }
+    public void setEstatus(EstatusOrden estatus) {
+        this.estatus = estatus;
+    }
 }

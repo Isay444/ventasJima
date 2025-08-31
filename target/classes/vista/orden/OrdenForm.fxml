@@ -7,6 +7,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -14,10 +15,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 
 <BorderPane prefHeight="520" prefWidth="600" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.topografia.vista.orden.OrdenFormController">
-
+    <top>
+        <Label style="-fx-font-size:16; -fx-font-weight:bold;" text="Formulario de la Orden" BorderPane.alignment="CENTER" />
+    </top>
     <center>
         <GridPane hgap="10" vgap="10">
-            <!-- Padding correcto -->
             <padding>
                 <Insets bottom="20" left="20" right="20" top="20" />
             </padding>
@@ -44,43 +46,53 @@
             <ComboBox fx:id="cbUsuario" promptText="Usuario que registra" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
             <Label text="Fecha:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-            <DatePicker fx:id="dpFecha" GridPane.columnIndex="1" GridPane.rowIndex="7">
-            <cursor>
-               <Cursor fx:constant="HAND" />
-            </cursor></DatePicker>
+            <DatePicker fx:id="dpFecha" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
 
-            <Label text="Observaciones:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
-            <TextArea fx:id="txtObservaciones" prefRowCount="3" promptText="Informacion adicional importante" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <Label text="Monto Total:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+            <TextField fx:id="txtMontoTotal" promptText="Ej. 1000.00" GridPane.columnIndex="1" GridPane.rowIndex="8" />
 
-            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="10">
+            <Label text="Saldo Restante:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+            <Label fx:id="lblSaldoRestante" text="Calculado automáticamente" textFill="#b7b7b7" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+
+            <Label text="Observaciones:" GridPane.columnIndex="0" GridPane.rowIndex="13" />
+            <TextArea fx:id="txtObservaciones" prefRowCount="3" promptText="Informacion adicional importante" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+            
+            <Label text="Fecha Levantamiento:" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+            <DatePicker fx:id="dpFechaLevantamiento" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+
+            <Label text="Fecha Entrega Plano:" GridPane.columnIndex="0" GridPane.rowIndex="11" />
+            <DatePicker fx:id="dpFechaEntregaPlano" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+
+            <Label text="Estatus:" GridPane.columnIndex="0" GridPane.rowIndex="12" />
+            <ComboBox fx:id="cbEstatus" promptText="Selecciona estatus" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+
+            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="14">
                 <Button onAction="#guardarOrden" text="Guardar" />
                 <Button onAction="#cancelar" text="Cancelar" />
-            <GridPane.margin>
-               <Insets top="10.0" />
-            </GridPane.margin>
+                <padding>
+                    <Insets top="10" />
+                </padding>
             </HBox>
 
-            <!-- Que la columna 1 (la de los campos) se estire -->
             <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" minWidth="120.0" />
+                <ColumnConstraints halignment="RIGHT" minWidth="120" />
                 <ColumnConstraints hgrow="ALWAYS" />
             </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
+            <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints />
+            </rowConstraints>
+
         </GridPane>
     </center>
-   <top>
-         <Label style="-fx-font-size:16; -fx-font-weight:bold;" text="Formulario de la Orden" BorderPane.alignment="CENTER" />
-   </top>
 </BorderPane>

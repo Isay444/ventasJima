@@ -1,17 +1,21 @@
 
 package com.topografia.modelo.dao;
-
 import com.topografia.infra.JPAUtil;
+import com.topografia.modelo.entidades.Orden;
 import com.topografia.modelo.entidades.Recibo;
 import jakarta.persistence.EntityManager;
 import java.util.List;
-
 
 public class ReciboRepository {
     public List<Recibo> findAll(){
         EntityManager em = JPAUtil.getEMF().createEntityManager();
         try {
-            return em.createQuery("SELECT r FROM Recibo r", Recibo.class).getResultList();
+            return em.createQuery(
+            "SELECT DISTINCT r FROM Recibo r " +
+            "JOIN FETCH r.orden o " +
+            "JOIN FETCH o.cliente", Recibo.class
+        ).getResultList();
+
         } finally {
             em.close();
         }
@@ -35,8 +39,7 @@ public class ReciboRepository {
         } finally {
             em.close(); 
         }
-    }
-            
+    }           
     
     public void delete(Recibo recibo) {
         EntityManager em = JPAUtil.getEMF().createEntityManager();
@@ -49,4 +52,12 @@ public class ReciboRepository {
             em.close();
         }
     }
+    
+    public List<Recibo> findByOrden(Orden orden) {
+        EntityManager em = JPAUtil.getEMF().createEntityManager();
+        return em.createQuery("SELECT r FROM Recibo r WHERE r.orden = :orden", Recibo.class)
+                .setParameter("orden", orden)
+                .getResultList();
+    }
+
 }

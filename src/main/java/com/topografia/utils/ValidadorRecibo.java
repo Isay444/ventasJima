@@ -18,7 +18,7 @@ public class ValidadorRecibo {
             throw new IllegalArgumentException("El monto debe ser mayor a 0.");
         }
 
-        BigDecimal a1 = recibo.getAnticipo() != null ? recibo.getAnticipo() : BigDecimal.ZERO;
+        /*BigDecimal a1 = recibo.getAnticipo() != null ? recibo.getAnticipo() : BigDecimal.ZERO;
         BigDecimal a2 = recibo.getAnticipoDos() != null ? recibo.getAnticipoDos() : BigDecimal.ZERO;
 
         if (a1.compareTo(BigDecimal.ZERO) < 0 || a2.compareTo(BigDecimal.ZERO) < 0) {
@@ -27,7 +27,7 @@ public class ValidadorRecibo {
 
         if (a1.add(a2).compareTo(recibo.getMonto()) > 0) {
             throw new IllegalArgumentException("La suma de anticipos no puede superar al monto total.");
-        }
+        }*/
 
         if (recibo.getMetodo_pago() == null || recibo.getMetodo_pago().trim().isEmpty()) {
             throw new IllegalArgumentException("Debe seleccionar un método de pago.");

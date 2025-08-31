@@ -31,14 +31,21 @@
             <columns>
                 <TableColumn fx:id="colId" prefWidth="40" text="# Orden" />
                 <TableColumn fx:id="colFecha" prefWidth="100" text="Fecha" />
-                <TableColumn fx:id="colCliente" prefWidth="150" text="Cliente" />
-                <TableColumn fx:id="colServicio" prefWidth="180" text="Servicio" />
-                <TableColumn fx:id="colIngeniero" prefWidth="150" text="Ingeniero" />
-                <TableColumn fx:id="colSubTerreno" prefWidth="120" text="Terreno" />
-                <TableColumn fx:id="colMunicipio" prefWidth="120" text="Municipio" />
-                <TableColumn fx:id="colZonaEjidal" prefWidth="120" text="Zona Ejidal" />
-                <TableColumn fx:id="colUsuario" prefWidth="150" text="Usuario que registró" />
-                <TableColumn fx:id="colObservaciones" prefWidth="120" text="Observaciones" />
+                <TableColumn fx:id="colCliente" prefWidth="100" text="Cliente" />
+                <TableColumn fx:id="colServicio" prefWidth="100" text="Servicio" />
+                <TableColumn fx:id="colIngeniero" prefWidth="100" text="Ingeniero" />
+                <TableColumn fx:id="colSubTerreno" prefWidth="100" text="Terreno" />
+                <TableColumn fx:id="colMunicipio" prefWidth="100" text="Municipio" />
+                <TableColumn fx:id="colZonaEjidal" prefWidth="100" text="Zona Ejidal" />
+                <TableColumn fx:id="colUsuario" prefWidth="100" text="Usuario que registró" />
+                <TableColumn fx:id="colObservaciones" prefWidth="100" text="Observaciones" />
+                <TableColumn fx:id="colMontoTotal" prefWidth="100" text="Total" />
+                <TableColumn fx:id="colSaldoRestante" prefWidth="120" text="Saldo Restante" />
+                <TableColumn fx:id="colFechaLevantamiento" prefWidth="120" text="Fecha Levantamiento" />
+                <TableColumn fx:id="colFechaEntregaPlano" prefWidth="120" text="Entrega Plano" />
+                <TableColumn fx:id="colEstatus" prefWidth="120" text="Estatus" />
+                
+                <TableColumn fx:id="colVerRecibos" text="Recibos" prefWidth="100"/>
             </columns>
         </TableView>
     </center>

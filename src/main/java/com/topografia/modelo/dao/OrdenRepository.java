@@ -1,5 +1,4 @@
 package com.topografia.modelo.dao;
-
 import com.topografia.infra.JPAUtil;
 import com.topografia.modelo.entidades.Orden;
 import jakarta.persistence.EntityManager;
@@ -7,23 +6,29 @@ import jakarta.persistence.EntityTransaction;
 import java.util.List;
 
 public class OrdenRepository {
-    
-    // ✅ CORREGIDO: finAll() -> findAll()
     public List<Orden> findAll(){
         EntityManager em = JPAUtil.getEMF().createEntityManager();
-        try {
-            return em.createQuery("SELECT o FROM Orden o", Orden.class).getResultList();
-        } finally {
-            em.close();
-        }
+        return em.createQuery(
+        "SELECT DISTINCT o FROM Orden o LEFT JOIN FETCH o.recibos", Orden.class
+    ).getResultList();
+
     }
+    
+    public Orden findByIdConRecibos(Integer id) {
+        EntityManager em = JPAUtil.getEMF().createEntityManager();
+        return em.createQuery(
+            "SELECT o FROM Orden o LEFT JOIN FETCH o.recibos WHERE o.id = :id", Orden.class
+        ).setParameter("id", id)
+         .getSingleResult();
+    }
+
     
     public Orden findById(Integer id) {
         EntityManager em = JPAUtil.getEMF().createEntityManager();
         try {
             return em.find(Orden.class, id);
         } finally {
-            // ✅ CORREGIDO: Ahora cierra el EntityManager correctamente
+            //Ahora cierra el EntityManager correctamente
             em.close();
         }
     }
@@ -55,7 +60,7 @@ public class OrdenRepository {
         try {
             tx.begin();
             
-            // ✅ MEJORADO: Verificar si la orden está adjunta antes de merge
+            //Verificar si la orden está adjunta antes de merge
             Orden managed = orden;
             if (!em.contains(orden)) {
                 managed = em.find(Orden.class, orden.getId());
@@ -68,13 +73,13 @@ public class OrdenRepository {
             em.flush(); // forzar ejecución inmediata (detecta FK/errores aquí)
             tx.commit();
             
-            System.out.println("✅ Orden eliminada exitosamente: ID=" + orden.getId());
+            System.out.println("Orden eliminada exitosamente: ID=" + orden.getId());
             
         } catch (Exception e) {
             if (tx.isActive()) {
                 tx.rollback();
             }
-            System.err.println("❌ Error eliminando orden: " + e.getMessage());
+            System.err.println("Error eliminando orden: " + e.getMessage());
             throw new RuntimeException("Error eliminando la orden con id=" + orden.getId(), e);
         } finally {
             em.close();

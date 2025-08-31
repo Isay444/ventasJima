@@ -3,6 +3,7 @@ package com.topografia.vista.recibo;
 import com.topografia.modelo.dao.OrdenRepository;
 import com.topografia.modelo.entidades.Orden;
 import com.topografia.modelo.entidades.Recibo;
+import com.topografia.modelo.entidades.Recibo.TipoPago;
 import com.topografia.modelo.servicio.ReciboService;
 import com.topografia.utils.Validador;
 import java.math.BigDecimal;
@@ -21,11 +22,10 @@ public class ReciboFormController {
     @FXML private DatePicker dpFecha;
     @FXML private TextField txtMonto;
     @FXML private ComboBox<String> cbMetodoPago;
-    @FXML private TextField txtAnticipo;
-    @FXML private TextField txtAnticipoDos;
-    @FXML private TextField txtResto;
-    @FXML private TextField txtSaldo;
-    @FXML private ComboBox<String> cbEstado;
+    
+    @FXML private ComboBox<TipoPago> cbTipoPago;
+    @FXML private CheckBox chkConfirmado;
+
 
     private Recibo recibo;
     private ReciboService service;
@@ -37,7 +37,6 @@ public class ReciboFormController {
     @FXML private TableColumn<Orden, String> colFechaOrden;
     @FXML private TableColumn<Orden, String> colClienteOrden;
     @FXML private TableColumn<Orden, String> colServicioOrden;
-    @FXML private TableColumn<Orden, String> colEstadoOrden;
     @FXML private TextField txtBuscarOrden;
     @FXML private Label lblOrdenSeleccionada;
 
@@ -46,18 +45,12 @@ public class ReciboFormController {
     @FXML
     public void initialize() {
         cbMetodoPago.getItems().addAll("Efectivo", "Transferencia", "Tarjeta");
-        cbEstado.getItems().addAll("PAGADO", "PENDIENTE", "CANCELADO", "PARCIAL");
         dpFecha.setValue(LocalDate.now());
         
-        //Listeners en los campos de monto y anticipos
-        ChangeListener<String> recalcularListener = (obs, oldVal, newVal) -> recalcularTotales();
-        
-        // Listeners para recalcular automáticamente
-        txtMonto.textProperty().addListener(recalcularListener);
-        txtAnticipo.textProperty().addListener(recalcularListener);
-        txtAnticipoDos.textProperty().addListener(recalcularListener);
-
-        // Configurar columnas
+        cbTipoPago.setItems(FXCollections.observableArrayList(TipoPago.values()));
+        chkConfirmado.setSelected(true);        
+               
+        // Configurar columnas para seleccionar la orden
         colFechaOrden.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFecha().toString()));
         colClienteOrden.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getCliente().getNombre()));
         colServicioOrden.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getServicio().getNombre()));
@@ -97,14 +90,11 @@ public class ReciboFormController {
         this.recibo = recibo;
         if (recibo != null) {
             dpFecha.setValue(recibo.getFecha());
-            txtMonto.setText(recibo.getMonto().toString());
-            
-            txtAnticipo.setText(recibo.getAnticipo() != null ? recibo.getAnticipo().toString() : "");
-            txtAnticipoDos.setText(recibo.getAnticipoDos() != null ? recibo.getAnticipoDos().toString() : "");
-            txtResto.setText(recibo.getResto() != null ? recibo.getResto().toString() : "");
-            txtSaldo.setText(recibo.getSaldo() != null ? recibo.getSaldo().toString() : "");
-            cbEstado.setValue(recibo.getEstadoPago());
+            txtMonto.setText(recibo.getMonto() != null ? recibo.getMonto().toPlainString() : "");
             cbMetodoPago.setValue(recibo.getMetodo_pago());
+            cbTipoPago.setValue(recibo.getTipoPago());
+            chkConfirmado.setSelected(Boolean.TRUE.equals(recibo.getConfirmado()));
+
 
             // En lugar de un comobobx, seleccionamos en la tabla
             ordenSeleccionada = recibo.getOrden();
@@ -127,13 +117,15 @@ public class ReciboFormController {
 
     @FXML
     public void guardar() {
+        if (cbTipoPago.getValue() == null) {
+            mostrarAlerta("Debes seleccionar un tipo de pago.");
+            return;
+        }
         String monto = txtMonto.getText();
         String metodoPago = cbMetodoPago.getValue();
-        String fecha = dpFecha.getValue().toString();
-        String anticipo = txtAnticipo.getText();
+        String fecha = dpFecha.getValue().toString();        
         if (!Validador.validarTextoNoVacio(monto, "Monto")) return;
         if (!Validador.validarNumeroPositivo(monto, "Monto")) return;
-        if (!Validador.validarNumeroPositivo(anticipo, "Anticipo")) return;
         if (!Validador.validarTextoNoVacio(metodoPago, "Método de Pago")) return;
         if (!Validador.validarTextoNoVacio(fecha, "Fecha")) return;
         try {
@@ -143,20 +135,16 @@ public class ReciboFormController {
             }
 
             //Construir objeto
-            if (recibo == null) {
-                recibo = new Recibo();
-            }
+            if (recibo == null) recibo = new Recibo();
+            
+            
             recibo.setFecha(dpFecha.getValue());
             recibo.setMonto(new BigDecimal(txtMonto.getText()));
-            recibo.setAnticipo(txtAnticipo.getText().isEmpty() ? BigDecimal.ZERO : new BigDecimal(txtAnticipo.getText()));
-            recibo.setAnticipoDos(txtAnticipoDos.getText().isEmpty() ? BigDecimal.ZERO : new BigDecimal(txtAnticipoDos.getText()));
-            recibo.setEstadoPago(cbEstado.getValue());
             recibo.setMetodo_pago(cbMetodoPago.getValue());
             recibo.setOrden(ordenSeleccionada);
-
-            // Validar y calcular
-            recibo.validarDatos();
-            recibo.calcularTotales();
+            recibo.setTipoPago(cbTipoPago.getValue());
+            recibo.setConfirmado(chkConfirmado.isSelected());
+            
 
             // Guardar
             service.guardar(recibo);
@@ -176,31 +164,6 @@ public class ReciboFormController {
         cerrar();
     }    
     
-    private void recalcularTotales() {
-    try {
-        BigDecimal monto = new BigDecimal(txtMonto.getText().isEmpty() ? "0" : txtMonto.getText());
-        BigDecimal anticipo = new BigDecimal(txtAnticipo.getText().isEmpty() ? "0" : txtAnticipo.getText());
-        BigDecimal anticipoDos = new BigDecimal(txtAnticipoDos.getText().isEmpty() ? "0" : txtAnticipoDos.getText());
-
-        Recibo temp = new Recibo();
-        temp.setMonto(monto);
-        temp.setAnticipo(anticipo);
-        temp.setAnticipoDos(anticipoDos);
-        temp.calcularTotales();
-
-        txtResto.setText(temp.getResto().toString());
-        txtSaldo.setText(temp.getSaldo().toString());
-        cbEstado.setValue(temp.getEstadoPago());
-
-    } catch (NumberFormatException e) {
-        // Si escribe algo que no es número, limpiamos los calculados
-        txtResto.setText("");
-        txtSaldo.setText("");
-        cbEstado.setValue("");
-    }
-}
-
-
     private void cerrar() {
         Stage stage = (Stage) dpFecha.getScene().getWindow();
         stage.close();
