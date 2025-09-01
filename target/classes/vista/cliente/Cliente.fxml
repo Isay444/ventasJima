@@ -13,6 +13,9 @@
             <Button text="Editar" onAction="#editarCliente"/>
             <Button text="Eliminar" onAction="#eliminarCliente"/>
             <Button text="Actualizar" onAction="#cargarClientes"/>
+            <Label prefHeight="18.0" prefWidth="98.0" text="Buscar por:" />
+           <ComboBox fx:id="cbFiltro" />
+           <TextField fx:id="txtBuscar" promptText="Escribe para buscar..." />
         </ToolBar>
     </top>
 

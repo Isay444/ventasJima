@@ -3,10 +3,12 @@ package com.topografia.vista.recibo;
 
 import com.topografia.modelo.entidades.Recibo;
 import com.topografia.modelo.servicio.ReciboService;
+import com.topografia.utils.TableFilter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,10 +29,33 @@ public class ReciboController {
     @FXML private TableColumn<Recibo, String> colResto;
     @FXML private TableColumn<Recibo, String> colSaldo;   
     
+    @FXML private TextField txtBuscar;
+    @FXML private ComboBox<String> cbFiltro;
+    private ObservableList<Recibo> recibos;
+    private TableFilter<Recibo> filtro;
+    
     private final ReciboService service = new ReciboService();
     
     @FXML
     public void initialize() {
+        recibos = FXCollections.observableArrayList(service.listar());
+        cbFiltro.getItems().addAll("Estado de pago", "Metodo pago (Efectivo/Tarjeta/Transferencia)",
+                "Fecha");
+        cbFiltro.setValue("Estado de pago");
+
+        filtro = new TableFilter<>(recibos);
+        filtro.conectar(
+                txtBuscar,
+                cbFiltro,
+                tablaRecibos,
+                o -> o.getEstadoPago(),
+                o -> o.getMetodo_pago(),
+                o ->o.getFecha().toString()
+        );
+        configurarColumnas();
+    }
+    
+    private void configurarColumnas(){
         colFecha.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFecha().toString()));
         colMonto.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getMonto().toString()));
         colMetodoPago.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getMetodo_pago()));
@@ -50,12 +75,16 @@ public class ReciboController {
             String texto = (saldo != null) ? saldo.toString() : "0.00";
             return new SimpleStringProperty(texto);
         });
-        cargarRecibos();
     }
 
     @FXML
     public void cargarRecibos() {
-        tablaRecibos.setItems(FXCollections.observableArrayList(service.listar()));
+        try {
+            tablaRecibos.setItems(FXCollections.observableArrayList(service.listar()));
+        } catch (Exception e) {
+            mostrarAlerta("Error cargando las órdenes: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+        
     }
 
     @FXML
@@ -69,7 +98,7 @@ public class ReciboController {
         if (seleccionado != null) {
             abrirFormulario(seleccionado);
         } else {
-            mostrarAlerta("Seleccione un recibo para editar");
+            mostrarAlerta("Seleccione un recibo para editar", Alert.AlertType.ERROR);
         }
     }
 
@@ -85,7 +114,7 @@ public class ReciboController {
                 }
             });
         } else {
-            mostrarAlerta("Seleccione un recibo para eliminar");
+            mostrarAlerta("Seleccione un recibo para eliminar", Alert.AlertType.INFORMATION);
         }
     }
 
@@ -105,8 +134,10 @@ public class ReciboController {
         stage.showAndWait();
     }
 
-    private void mostrarAlerta(String msg) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    private void mostrarAlerta(String msg, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle("Información");
+        alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
     }

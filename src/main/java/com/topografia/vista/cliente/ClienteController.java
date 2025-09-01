@@ -3,12 +3,14 @@ package com.topografia.vista.cliente;
 
 import com.topografia.modelo.entidades.Cliente;
 import com.topografia.modelo.servicio.ClienteService;
+import com.topografia.utils.TableFilter;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,25 +22,49 @@ public class ClienteController {
     @FXML private TableColumn<Cliente, String> colNombre;
     @FXML private TableColumn<Cliente, String> colDireccion;
     @FXML private TableColumn<Cliente, String> colTelefono;
-    @FXML private TableColumn<Cliente, String> colEmail;
-    
+    @FXML private TableColumn<Cliente, String> colEmail;    
     @FXML private TableColumn<Cliente, String> colTipo;
 
     private final ClienteService service = new ClienteService();
+    
+    @FXML private TextField txtBuscar;
+    @FXML private ComboBox<String> cbFiltro;
+    private ObservableList<Cliente> clientes;
+    private TableFilter<Cliente> filtro;
 
     @FXML
     public void initialize() {
+        clientes = FXCollections.observableArrayList(service.listarClientes());
+        cbFiltro.getItems().addAll("Nombre", "Municipio", "Localidad", "Tipo");
+        cbFiltro.setValue("Nombre");
+
+        filtro = new TableFilter<>(clientes);
+        filtro.conectar(
+                txtBuscar,
+                cbFiltro,
+                tablaClientes,
+                o -> o.getNombre(),
+                o -> o.getMunicipio().getNombre(),
+                o -> o.getLocalidad(),
+                o -> o.getTipo().toString()
+        );
+        configurarColumnas();
+    }
+    private void configurarColumnas(){
         colNombre.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getNombre()));
         colDireccion.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getDireccion()));
         colTelefono.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getTelefono()));
         colEmail.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getEmail()));
         colTipo.setCellValueFactory(c -> new SimpleStringProperty( c.getValue().getTipo()!= null ? c.getValue().getTipo().toString() : "" ));
-        cargarClientes();
     }
 
     @FXML
     public void cargarClientes() {
-        tablaClientes.setItems(FXCollections.observableArrayList(service.listarClientes()));
+        try {
+            tablaClientes.setItems(FXCollections.observableArrayList(service.listarClientes()));
+        } catch (Exception e) {
+            mostrarAlerta("Error cargando los clientes: " + e.getMessage(), Alert.AlertType.ERROR);
+        }        
     }
 
     @FXML

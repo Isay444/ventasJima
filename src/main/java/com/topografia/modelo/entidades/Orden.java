@@ -31,12 +31,8 @@ public class Orden {
     @Column(name = "estatus", length = 20, nullable = false)
     private EstatusOrden estatus = EstatusOrden.ACTIVA;
 
-    // Información del plano topográfico
     @Column(name = "plano_ruta", length = 255)
     private String planoRuta; // Ruta o nombre del archivo
-
-    //@Column(name = "plano_descripcion", columnDefinition = "TEXT")
-    //private String planoDescripcion;
 
     // Enum para estatus
     public enum EstatusOrden {

@@ -46,7 +46,8 @@ public class OrdenController {
     @FXML
     public void initialize() {
         ordenes = FXCollections.observableArrayList(service.listar());
-        cbFiltro.getItems().addAll("Cliente", "Servicio", "Ingeniero", "Fecha");
+        cbFiltro.getItems().addAll("Cliente", "Servicio", "Ingeniero", "Fecha", 
+                "Terreno", "Municipio", "Ejido", "Estatus");
         cbFiltro.setValue("Cliente");
 
         filtro = new TableFilter<>(ordenes);
@@ -57,7 +58,11 @@ public class OrdenController {
                 o -> o.getCliente().getNombre(),
                 o -> o.getServicio().getNombre(),
                 o -> o.getIngeniero().getNombre(),
-                o -> o.getFecha().toString()
+                o -> o.getFecha().toString(),
+                o -> o.getSubtipoTerreno().getNombre(),
+                o -> o.getMunicipio().getNombre(),
+                o -> o.getZonaEjidal().getNombre(),
+                o -> o.getEstatus().toString()
         );
         configurarColumnas();
     }
@@ -176,10 +181,6 @@ public class OrdenController {
         stage.setScene(scene);
         stage.showAndWait();
     }      
-
-    private void mostrarAlerta(String msg) {
-        mostrarAlerta(msg, Alert.AlertType.INFORMATION);
-    }
     
     private void mostrarAlerta(String msg, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);
