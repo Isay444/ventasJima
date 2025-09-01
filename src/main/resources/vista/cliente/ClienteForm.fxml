@@ -22,9 +22,6 @@
             <Insets bottom="15" left="15" right="15" top="15" />
         </padding>
 
-        <!-- ================================ -->
-        <!-- TÍTULO -->
-        <!-- ================================ -->
         <Label prefHeight="35.0" prefWidth="280.0" text="Registro de Cliente"
                style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-alignment: center;">
         </Label>
@@ -48,6 +45,12 @@
 
         <Label prefWidth="280.0" text="Email *" style="-fx-text-fill: #2c3e50;"/>
         <TextField fx:id="txtEmail" promptText="ejemplo@correo.com"/>
+        
+        <Label prefWidth="280.0" text="Tipo *" style="-fx-text-fill: #2c3e50;"/>
+        <ComboBox fx:id="cbTipo" prefWidth="280.0" 
+                  promptText="Seleccione un tipo de cliente">
+        </ComboBox>
+
 
         <!-- ================================ -->
         <!-- DIRECCIÓN SEPARADA -->

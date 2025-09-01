@@ -4,6 +4,7 @@ package com.topografia.vista.recibo;
 import com.topografia.modelo.entidades.Recibo;
 import com.topografia.modelo.servicio.ReciboService;
 import java.io.IOException;
+import java.math.BigDecimal;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -38,8 +39,17 @@ public class ReciboController {
         colEstado.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEstadoPago()));
         colAnticipo.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getAnticipo() != null ? c.getValue().getAnticipo().toString() : "0.00"));
         colAnticipoDos.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getAnticipoDos() != null ? c.getValue().getAnticipoDos().toString() : "0.00"));
-        colResto.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getResto().toString() != null ? c.getValue().getResto().toString() : "0.00"));
-        colSaldo.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getSaldo().toString() != null ? c.getValue().getSaldo().toString() : "0.00"));
+        colResto.setCellValueFactory(c -> {
+            BigDecimal resto = c.getValue().getResto();
+            String texto = (resto != null) ? resto.toString() : "0.00";
+            return new SimpleStringProperty(texto);
+        });
+        
+        colSaldo.setCellValueFactory(c -> {
+            BigDecimal saldo = c.getValue().getSaldo();
+            String texto = (saldo != null) ? saldo.toString() : "0.00";
+            return new SimpleStringProperty(texto);
+        });
         cargarRecibos();
     }
 

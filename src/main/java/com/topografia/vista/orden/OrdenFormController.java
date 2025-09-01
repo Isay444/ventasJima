@@ -95,10 +95,8 @@ public class OrdenFormController {
     @FXML
     public void guardarOrden() {
         
-        if (cbZonaEjidal.getItems().isEmpty() || cbUsuario.getItems().isEmpty() || 
-            cbSubtipoTerreno.getItems().isEmpty() || cbCliente.getItems().isEmpty() || 
-            cbIngeniero.getItems().isEmpty() || cbMunicipio.getItems().isEmpty() ||
-            cbServicio.getItems().isEmpty() || dpFecha.getValue() == null) {
+        if (cbZonaEjidal.getValue() == null || cbUsuario.getValue() == null || cbSubtipoTerreno.getValue() == null || cbCliente.getValue() == null || 
+            cbIngeniero.getValue() == null || cbMunicipio.getValue() == null || cbServicio.getValue() == null || dpFecha.getValue() == null || cbEstatus.getValue() == null) {
             mostrarAlerta("Algunos campos estan vacíos");
             return;
         }

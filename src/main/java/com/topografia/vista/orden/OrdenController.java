@@ -75,44 +75,11 @@ public class OrdenController {
         colSubTerreno.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getSubtipoTerreno() != null ? c.getValue().getSubtipoTerreno().getNombre() : ""));
         
         // 🔹 Nuevas columnas
-        colFechaLevantamiento.setCellValueFactory(c
-                -> new SimpleStringProperty(
-                        c.getValue().getFechaLevantamiento() != null
-                        ? c.getValue().getFechaLevantamiento().toString()
-                        : ""
-                )
-        );
-
-        colFechaEntregaPlano.setCellValueFactory(c
-                -> new SimpleStringProperty(
-                        c.getValue().getFechaEntregaPlano() != null
-                        ? c.getValue().getFechaEntregaPlano().toString()
-                        : ""
-                )
-        );
-
-        colSolicitoFactura.setCellValueFactory(c
-                -> new SimpleStringProperty(
-                        Boolean.TRUE.equals(c.getValue().getSolicitoFactura()) ? "Sí" : "No"
-                )
-        );
-
-        colEstatus.setCellValueFactory(c
-                -> new SimpleStringProperty(
-                        c.getValue().getEstatus() != null
-                        ? c.getValue().getEstatus().toString()
-                        : ""
-                )
-        );
-
-        colPlanoRuta.setCellValueFactory(c
-                -> new SimpleStringProperty(
-                        c.getValue().getPlanoRuta() != null
-                        ? c.getValue().getPlanoRuta()
-                        : ""
-                )
-        );
-
+        colFechaLevantamiento.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFechaLevantamiento() != null ? c.getValue().getFechaLevantamiento().toString() : "" ));
+        colFechaEntregaPlano.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getFechaEntregaPlano() != null ? c.getValue().getFechaEntregaPlano().toString() : ""));
+        colSolicitoFactura.setCellValueFactory(c -> new SimpleStringProperty(Boolean.TRUE.equals(c.getValue().getSolicitoFactura()) ? "Sí" : "No"));
+        colEstatus.setCellValueFactory(c -> new SimpleStringProperty( c.getValue().getEstatus() != null ? c.getValue().getEstatus().toString() : "" ));
+        colPlanoRuta.setCellValueFactory(c -> new SimpleStringProperty( c.getValue().getPlanoRuta() != null ? c.getValue().getPlanoRuta() : "" ));
     }
     
     @FXML

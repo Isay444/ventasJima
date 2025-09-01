@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import javafx.beans.property.SimpleStringProperty;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,6 +21,8 @@ public class ClienteController {
     @FXML private TableColumn<Cliente, String> colDireccion;
     @FXML private TableColumn<Cliente, String> colTelefono;
     @FXML private TableColumn<Cliente, String> colEmail;
+    
+    @FXML private TableColumn<Cliente, String> colTipo;
 
     private final ClienteService service = new ClienteService();
 
@@ -29,6 +32,7 @@ public class ClienteController {
         colDireccion.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getDireccion()));
         colTelefono.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getTelefono()));
         colEmail.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getEmail()));
+        colTipo.setCellValueFactory(c -> new SimpleStringProperty( c.getValue().getTipo()!= null ? c.getValue().getTipo().toString() : "" ));
         cargarClientes();
     }
 

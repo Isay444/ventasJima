@@ -2,9 +2,11 @@ package com.topografia.vista.cliente;
 
 import com.topografia.modelo.dao.MunicipioRepository;
 import com.topografia.modelo.entidades.Cliente;
+import com.topografia.modelo.entidades.Cliente.TIPOCLIENTE;
 import com.topografia.modelo.entidades.Municipio;
 import com.topografia.modelo.servicio.ClienteService;
 import com.topografia.utils.Validador;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -26,6 +28,8 @@ public class ClienteFormController {
     @FXML private TextField txtLocalidad;
     @FXML private ComboBox<Municipio> cbMunicipio;
     @FXML private TextField txtCodigoPostal;
+    
+    @FXML private ComboBox<TIPOCLIENTE> cbTipo;
 
     // ================================
     // DEPENDENCIAS
@@ -43,6 +47,8 @@ public class ClienteFormController {
     public void initialize() {
         // Cargar municipios en el ComboBox
         cbMunicipio.getItems().addAll(municipioRepo.findAll());
+        cbTipo.setItems(FXCollections.observableArrayList(TIPOCLIENTE.values()));
+        cbTipo.setValue(TIPOCLIENTE.Particular);
         
         // Configurar formato del ComboBox para mostrar solo el nombre
         cbMunicipio.setCellFactory(lv -> new ListCell<Municipio>() {
@@ -97,6 +103,7 @@ public class ClienteFormController {
             txtColonia.setText(cliente.getColonia());
             txtLocalidad.setText(cliente.getLocalidad());
             txtCodigoPostal.setText(cliente.getCodigoPostal());
+            cbTipo.setValue(cliente.getTipo());
             
             // Municipio
             if (cliente.getMunicipio() != null) {
@@ -138,6 +145,7 @@ public class ClienteFormController {
             cliente.setLocalidad(txtLocalidad.getText().trim().toUpperCase());
             cliente.setCodigoPostal(txtCodigoPostal.getText().trim());
             cliente.setMunicipio(cbMunicipio.getValue());
+            cliente.setTipo(cbTipo.getValue());
 
             // Guardar
             service.guardarCliente(cliente);
@@ -173,6 +181,14 @@ public class ClienteFormController {
                 txtCodigoPostal.requestFocus();
                 return false;
             }
+        }
+        if(cbMunicipio.getValue() == null){
+            mostrarMensaje("Debe seleccionar un Municipio", Alert.AlertType.WARNING);
+            return false;
+        }
+        if(cbTipo.getValue() == null){
+            mostrarMensaje("Debe seleccionar un Tipo de Cliente", Alert.AlertType.WARNING);
+            return false;
         }
 
         return true;

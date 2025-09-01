@@ -42,6 +42,23 @@ public class Cliente {
     @Column(name = "email", nullable = false, length = 100)
     private String email;
     
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo")
+    private TIPOCLIENTE tipo = TIPOCLIENTE.Particular;
+    
+    public enum TIPOCLIENTE {
+        Particular, Notaria
+    }
+
+    public TIPOCLIENTE getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TIPOCLIENTE tipo) {
+        this.tipo = tipo;
+    }
+    
+    
     // Relación con órdenes
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Orden> ordenes;
