@@ -44,7 +44,7 @@ public class ReciboController {
     @FXML
     public void initialize() {
         recibos = FXCollections.observableArrayList(service.listar());
-        cbFiltro.getItems().addAll("Fecha", "Metodo de Pago", "Tipo Pago");
+        cbFiltro.getItems().addAll("Fecha", "Metodo de Pago", "Tipo Pago", "Confirmados");
         cbFiltro.setValue("Aplicar filtro");
         
         filtro = new TableFilter<>(recibos);
@@ -54,7 +54,8 @@ public class ReciboController {
                 tablaRecibos,
                 o -> o.getFecha().toString(),
                 o -> o.getMetodo_pago(),
-                o -> o.getTipoPago().toString()
+                o -> o.getTipoPago().toString(),
+                o -> o.getConfirmado().toString()
         );
         configurarColumnas();
     }
@@ -92,25 +93,26 @@ public class ReciboController {
     }
     
     private void abrirOrdenDesdeRecibo(Orden orden) throws IOException {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/orden/OrdenForm.fxml"));
-    Scene scene = new Scene(loader.load());
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/orden/OrdenForm.fxml"));
+        Scene scene = new Scene(loader.load());
 
-    OrdenFormController ordenFormController = loader.getController();
-    OrdenService ordenService = new OrdenService();
+        OrdenFormController ordenFormController = loader.getController();
+        OrdenService ordenService = new OrdenService();
 
-    // Recargar la orden con sus recibos ya cargados
-    Orden ordenCompleta = ordenService.buscarPorIdConRecibos(orden.getId());
+        // 🔹 Recargar la orden con sus recibos ya inicializados
+        Orden ordenCompleta = ordenService.buscarPorIdConRecibos(orden.getId());
 
-    ordenFormController.setOrdenService(ordenService);
-    ordenFormController.setOrdenController(null); // si no necesitas refrescar tabla de órdenes aquí
-    ordenFormController.setOrden(ordenCompleta);
+        ordenFormController.setOrdenService(ordenService);
+        ordenFormController.setOrdenController(null); // si no necesitas refrescar tabla de órdenes aquí
+        ordenFormController.setOrden(ordenCompleta);
 
-    Stage stage = new Stage();
-    stage.setTitle("Editar Orden #" + orden.getId());
-    stage.initModality(Modality.APPLICATION_MODAL);
-    stage.setScene(scene);
-    stage.showAndWait();
-}
+        Stage stage = new Stage();
+        stage.setTitle("Editar Orden #" + orden.getId());
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.showAndWait();
+
+    }
 
     
     @FXML

@@ -27,7 +27,7 @@
             <TableColumn fx:id="colMonto" text="Monto" prefWidth="100"/>
             <TableColumn fx:id="colTipoPago" text="Tipo de Pago" prefWidth="120"/>
             <TableColumn fx:id="colMetodoPago" text="Método de Pago" prefWidth="120"/>
-            <TableColumn fx:id="colConfirmado" text="Confirmado" prefWidth="100"/>
+            <TableColumn fx:id="colConfirmado" text="Pago Confirmado" prefWidth="100"/>
             <TableColumn fx:id="colOrden" text="Orden" prefWidth="100"/>
             <TableColumn fx:id="colCliente" text="Cliente" prefWidth="150"/>
             <TableColumn fx:id="colVerOrden" text="Ver Orden" prefWidth="100"/>

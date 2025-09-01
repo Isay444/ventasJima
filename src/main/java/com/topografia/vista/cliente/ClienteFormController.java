@@ -5,6 +5,7 @@ import com.topografia.modelo.entidades.Cliente;
 import com.topografia.modelo.entidades.Municipio;
 import com.topografia.modelo.servicio.ClienteService;
 import com.topografia.utils.Validador;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -26,6 +27,9 @@ public class ClienteFormController {
     @FXML private TextField txtLocalidad;
     @FXML private ComboBox<Municipio> cbMunicipio;
     @FXML private TextField txtCodigoPostal;
+    
+    
+    @FXML private ComboBox<Cliente.TipoCliente> cbTipo;
 
     // ================================
     // DEPENDENCIAS
@@ -43,6 +47,7 @@ public class ClienteFormController {
     public void initialize() {
         // Cargar municipios en el ComboBox
         cbMunicipio.getItems().addAll(municipioRepo.findAll());
+        cbTipo.setItems(FXCollections.observableArrayList(Cliente.TipoCliente.values()));
         
         // Configurar formato del ComboBox para mostrar solo el nombre
         cbMunicipio.setCellFactory(lv -> new ListCell<Municipio>() {
@@ -98,6 +103,8 @@ public class ClienteFormController {
             txtLocalidad.setText(cliente.getLocalidad());
             txtCodigoPostal.setText(cliente.getCodigoPostal());
             
+            cbTipo.setValue(cliente.getTipo());
+            
             // Municipio
             if (cliente.getMunicipio() != null) {
                 cbMunicipio.setValue(cliente.getMunicipio());
@@ -138,6 +145,7 @@ public class ClienteFormController {
             cliente.setLocalidad(txtLocalidad.getText().trim().toUpperCase());
             cliente.setCodigoPostal(txtCodigoPostal.getText().trim());
             cliente.setMunicipio(cbMunicipio.getValue());
+            cliente.setTipo(cbTipo.getValue());
 
             // Guardar
             service.guardarCliente(cliente);
@@ -167,6 +175,10 @@ public class ClienteFormController {
         if (!Validador.validarTextoNoVacio(txtLocalidad.getText(), "Localidad")) return false;
         if (cbMunicipio.getValue() == null){
             mostrarMensaje("El campo Municipio es obligatorio", Alert.AlertType.NONE);
+            return false;
+        }
+        if (cbTipo.getValue() == null){
+            mostrarMensaje("El campo Tipo es obligatorio", Alert.AlertType.NONE);
             return false;
         }
         if (!Validador.validarTelefono(txtTelefono.getText())) return false;

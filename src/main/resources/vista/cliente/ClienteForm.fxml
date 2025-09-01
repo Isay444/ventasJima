@@ -41,6 +41,8 @@
 
         <Label prefWidth="280.0" style="-fx-text-fill: #2c3e50;" text="Email *" />
         <TextField fx:id="txtEmail" promptText="ejemplo@correo.com" />
+      <Label prefHeight="18.0" prefWidth="286.0" style="-fx-text-fill: #2c3e50;" text="Tipo de cliente *" />
+      <ComboBox fx:id="cbTipo" prefHeight="26.0" prefWidth="290.0" promptText="Seleccione el tipo de cliente" />
 
         <!-- ================================ -->
         <!-- DIRECCIÓN SEPARADA -->

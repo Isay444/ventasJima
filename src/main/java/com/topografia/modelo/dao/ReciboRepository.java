@@ -23,7 +23,11 @@ public class ReciboRepository {
     
     public Recibo findById(Integer id) {
         EntityManager em = JPAUtil.getEMF().createEntityManager();
-        return em.find(Recibo.class, id);
+        try {
+            return em.find(Recibo.class, id);
+        } finally {
+            em.close();
+        }
     }
     
     public void save(Recibo recibo){
@@ -55,9 +59,17 @@ public class ReciboRepository {
     
     public List<Recibo> findByOrden(Orden orden) {
         EntityManager em = JPAUtil.getEMF().createEntityManager();
-        return em.createQuery("SELECT r FROM Recibo r WHERE r.orden = :orden", Recibo.class)
-                .setParameter("orden", orden)
-                .getResultList();
-    }
+        try {
+            return em.createQuery(
+                    "SELECT DISTINCT r FROM Recibo r "
+                    + "JOIN FETCH r.orden o "
+                    + "LEFT JOIN FETCH o.recibos "
+                    + "WHERE o = :orden", Recibo.class
+            ).setParameter("orden", orden)
+                    .getResultList();
 
+        } finally {
+            em.close();
+        }
+    }
 }

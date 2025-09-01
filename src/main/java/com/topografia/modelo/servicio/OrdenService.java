@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class OrdenService {
     private final OrdenRepository repo = new OrdenRepository();
@@ -21,8 +22,14 @@ public class OrdenService {
         return repo.findById(id);
     }
     
+    public Orden buscarPorIdConRecibos(Integer id) {
+        return repo.findByIdConRecibos(id);
+    }
+    
     public void guardar(Orden orden){
-        if (orden == null) throw new IllegalArgumentException("La orden no puede ser nula");       
+        if (orden == null) throw new IllegalArgumentException("La orden no puede ser nula");
+        if (orden.getMontoTotal() == null) { orden.setMontoTotal(BigDecimal.ZERO); }
+        if (orden.getEstatus() == null) { orden.setEstatus(EstatusOrden.ACTIVA); }
         try {
             repo.save(orden);
             System.out.println("Orden guardada exitosamente: " + 
@@ -45,18 +52,22 @@ public class OrdenService {
             throw e;
         }
     }
-    
-    public Orden buscarPorIdConRecibos(Integer id) {
-        return repo.findByIdConRecibos(id);
-    }
-   
+       
     @Transactional
     public void actualizarEstadoYFechasPorPagos(Orden orden) {
         if (orden == null || orden.getId() == null) return;
-        // Reconsultar la orden con sus recibos ya cargados
-        Orden ordenAdjunta = repo.findByIdConRecibos(orden.getId());
 
-        var recibos = ordenAdjunta.getRecibos().stream()
+        // Reconsultar con recibos cargados
+        Orden ordenAdjunta = repo.findByIdConRecibos(orden.getId());
+        Set<Recibo> recibosSet = ordenAdjunta.getRecibos();
+
+        if (recibosSet == null || recibosSet.isEmpty()) {
+            ordenAdjunta.setEstatus(EstatusOrden.ACTIVA);
+            guardar(ordenAdjunta);
+            return;
+        }
+
+        var recibos = recibosSet.stream()
                 .filter(r -> Boolean.TRUE.equals(r.getConfirmado()))
                 .sorted(Comparator.comparing(Recibo::getFecha))
                 .toList();
@@ -74,12 +85,12 @@ public class OrdenService {
         recibos.stream()
                 .filter(r -> r.getTipoPago() == Recibo.TipoPago.ANTICIPO)
                 .findFirst()
-                .ifPresent(r -> ordenAdjunta.setFechaLevantamiento(r.getFecha()));
+                .ifPresent(r -> {
+                    ordenAdjunta.setFechaLevantamiento(r.getFecha());
+                    // fechaEntregaPlano = fechaLevantamiento + 5 días
+                    ordenAdjunta.setFechaEntregaPlano(r.getFecha().plusDays(5));
+                });
 
-        // Fecha de entrega plano = último pago confirmado
-        recibos.stream()
-                .reduce((first, second) -> second)
-                .ifPresent(r -> ordenAdjunta.setFechaEntregaPlano(r.getFecha()));
 
         // Calcular total pagado
         BigDecimal pagado = recibos.stream()
@@ -115,7 +126,7 @@ public class OrdenService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
     
-    public BigDecimal calcularSaldoRestante(Orden orden) {
+   public BigDecimal calcularSaldoRestante(Orden orden) {
         if (orden == null) return BigDecimal.ZERO;
 
         BigDecimal montoTotal = orden.getMontoTotal() != null
@@ -123,7 +134,7 @@ public class OrdenService {
                 : BigDecimal.ZERO;
 
         if (orden.getRecibos() == null || orden.getRecibos().isEmpty()) {
-            return montoTotal; // si no hay recibos, saldo = monto total
+            return montoTotal;
         }
 
         BigDecimal pagado = orden.getRecibos().stream()
@@ -133,6 +144,5 @@ public class OrdenService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return montoTotal.subtract(pagado);
-
     }
 }

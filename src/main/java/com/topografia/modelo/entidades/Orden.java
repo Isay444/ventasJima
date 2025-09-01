@@ -36,6 +36,9 @@ public class Orden {
     public enum EstatusOrden {
         ACTIVA, CANCELADA, TERMINADA
     }
+    
+    @Column(name = "solicita_factura", nullable = false)
+    private boolean solicitaFactura = false; // valor por defecto
 
     //relaciones
     @ManyToOne(fetch = FetchType.EAGER)
@@ -117,5 +120,12 @@ public class Orden {
     }
     public void setEstatus(EstatusOrden estatus) {
         this.estatus = estatus;
+    }
+    public boolean isSolicitaFactura() {
+        return solicitaFactura;
+    }
+
+    public void setSolicitaFactura(boolean solicitaFactura) {
+        this.solicitaFactura = solicitaFactura;
     }
 }

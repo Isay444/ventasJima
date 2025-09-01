@@ -27,9 +27,10 @@
         <TableView fx:id="tablaClientes">
             <columns>
                 <TableColumn fx:id="colNombre" prefWidth="150" text="Nombre" />
-                <TableColumn fx:id="colDireccion" prefWidth="214.39996337890625" text="Dirección" />
+                <TableColumn fx:id="colDireccion" prefWidth="260" text="Dirección" />
                 <TableColumn fx:id="colTelefono" minWidth="0.0" prefWidth="105.60003662109375" text="Teléfono" />
                 <TableColumn fx:id="colEmail" prefWidth="200" text="Email" />
+                <TableColumn fx:id="colTipo" prefWidth="150" text="Tipo" />
             </columns>
         </TableView>
     </center>

@@ -18,6 +18,7 @@ com\topografia\modelo\entidades\Orden.class
 com\topografia\vista\cliente\ClienteFormController.class
 com\topografia\vista\principal\MainController.class
 com\topografia\vista\recibo\ReciboFormController.class
+com\topografia\modelo\entidades\Cliente$TipoCliente.class
 com\topografia\modelo\entidades\SubtipoTerreno.class
 com\topografia\modelo\servicio\ClienteService.class
 com\topografia\modelo\dao\OrdenRepository.class

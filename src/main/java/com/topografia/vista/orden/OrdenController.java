@@ -32,6 +32,8 @@ public class OrdenController {
     
     @FXML private TextField txtBuscar;
     @FXML private ComboBox<String> cbFiltro;
+    
+    @FXML private TableColumn<Orden, String> colSolicitaFactura;
 
     @FXML private TableColumn<Orden, String> colSaldoRestante;
     @FXML private TableColumn<Orden, String> colMontoTotal;
@@ -48,7 +50,7 @@ public class OrdenController {
     @FXML
     public void initialize() {
         ordenes = FXCollections.observableArrayList(service.listar());
-        cbFiltro.getItems().addAll("Cliente", "Servicio", "Ingeniero", "Fecha", "Terreno", "Municipio", "Zona Ejidal", "Empleado que resgistró", "Status");
+        cbFiltro.getItems().addAll("Cliente", "Servicio", "Ingeniero", "Fecha", "Terreno", "Municipio", "Zona Ejidal", "Usuario", "Status", "Fecha Levantamiento");
         cbFiltro.setValue("Cliente");
         //Filtro para búsqueda
         filtro = new TableFilter<>(ordenes);
@@ -64,7 +66,8 @@ public class OrdenController {
                 o -> o.getMunicipio().getNombre(),
                 o -> o.getZonaEjidal().getNombre(),
                 o -> o.getUsuario().getNombre(),
-                o -> o.getEstatus().toString()
+                o -> o.getEstatus().toString(),
+                o -> o.getFechaLevantamiento().toString()
         );
         configurarColumnas();
     }
@@ -84,6 +87,8 @@ public class OrdenController {
         colFechaLevantamiento.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getFechaLevantamiento() != null ? c.getValue().getFechaLevantamiento().toString() : ""));
         colFechaEntregaPlano.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getFechaEntregaPlano() != null ? c.getValue().getFechaEntregaPlano().toString() : ""));
         colEstatus.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getEstatus() != null ? c.getValue().getEstatus().toString() : ""));
+        
+        colSolicitaFactura.setCellValueFactory(c -> new SimpleStringProperty( Boolean.TRUE.equals(c.getValue().isSolicitaFactura()) ? "Sí" : "No" ));
         //colSaldoRestante.setCellValueFactory(c-> new SimpleStringProperty("$" + service.calcularSaldoRestante(c.getValue()).toPlainString()));
         colSaldoRestante.setCellValueFactory(c -> {
             BigDecimal saldo = service.calcularSaldoRestante(c.getValue());

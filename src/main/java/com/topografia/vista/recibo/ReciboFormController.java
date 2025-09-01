@@ -4,6 +4,7 @@ import com.topografia.modelo.dao.OrdenRepository;
 import com.topografia.modelo.entidades.Orden;
 import com.topografia.modelo.entidades.Recibo;
 import com.topografia.modelo.entidades.Recibo.TipoPago;
+import com.topografia.modelo.servicio.OrdenService;
 import com.topografia.modelo.servicio.ReciboService;
 import com.topografia.utils.Validador;
 import java.math.BigDecimal;
@@ -95,7 +96,6 @@ public class ReciboFormController {
             cbTipoPago.setValue(recibo.getTipoPago());
             chkConfirmado.setSelected(Boolean.TRUE.equals(recibo.getConfirmado()));
 
-
             // En lugar de un comobobx, seleccionamos en la tabla
             ordenSeleccionada = recibo.getOrden();
             if (ordenSeleccionada != null) {
@@ -128,15 +128,25 @@ public class ReciboFormController {
         if (!Validador.validarNumeroPositivo(monto, "Monto")) return;
         if (!Validador.validarTextoNoVacio(metodoPago, "Método de Pago")) return;
         if (!Validador.validarTextoNoVacio(fecha, "Fecha")) return;
+        
         try {
             if (ordenSeleccionada == null) {
                 mostrarAlerta("Debes seleccionar una orden antes de guardar el recibo.");
                 return;
             }
+             // 🔹 Recargar la orden con sus recibos inicializados
+            OrdenService ordenService = new OrdenService();
+            ordenSeleccionada = ordenService.buscarPorIdConRecibos(ordenSeleccionada.getId());
+            
+            boolean tieneAnticipo = ordenSeleccionada.getRecibos().stream()
+                    .anyMatch(r -> r.getTipoPago() == TipoPago.ANTICIPO && Boolean.TRUE.equals(r.getConfirmado()));
 
+            if (!tieneAnticipo && cbTipoPago.getValue() != TipoPago.ANTICIPO) {
+                mostrarAlerta("Debe registrar al menos un pago como ANTICIPO antes de otros tipos de pago");
+                return;
+            }
             //Construir objeto
             if (recibo == null) recibo = new Recibo();
-            
             
             recibo.setFecha(dpFecha.getValue());
             recibo.setMonto(new BigDecimal(txtMonto.getText()));
@@ -144,7 +154,6 @@ public class ReciboFormController {
             recibo.setOrden(ordenSeleccionada);
             recibo.setTipoPago(cbTipoPago.getValue());
             recibo.setConfirmado(chkConfirmado.isSelected());
-            
 
             // Guardar
             service.guardar(recibo);
@@ -156,7 +165,6 @@ public class ReciboFormController {
         } catch (Exception e) {
             mostrarAlerta("Error al guardar el recibo: " + e.getMessage());
         }
-
     }
 
     @FXML

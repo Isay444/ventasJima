@@ -13,6 +13,14 @@ public class Cliente {
 
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo")    
+    private TipoCliente tipo = TipoCliente.Notaria;
+    
+    public enum TipoCliente {
+        Particular, Notaria
+    }    
 
     // ✅ CAMPOS DE DIRECCIÓN SEPARADOS
     @Column(name = "localidad", nullable = true, length = 100)
@@ -45,7 +53,7 @@ public class Cliente {
     // Relación con órdenes
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Orden> ordenes;
-
+    
     // ================================
     // GETTERS Y SETTERS EXISTENTES
     // ================================
@@ -121,6 +129,9 @@ public class Cliente {
         
         return direccionCompleta.toString();
     }
+    
+    public TipoCliente getTipo() { return tipo; }
+    public void setTipo(TipoCliente tipo) { this.tipo = tipo; }
     
     /**
      * Actualiza el campo direccion con la dirección completa

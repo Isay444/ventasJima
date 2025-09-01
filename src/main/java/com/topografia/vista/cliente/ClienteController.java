@@ -23,6 +23,8 @@ public class ClienteController {
     @FXML private TableColumn<Cliente, String> colTelefono;
     @FXML private TableColumn<Cliente, String> colEmail;
     
+    @FXML private TableColumn<Cliente, String> colTipo;
+    
     @FXML private TextField txtBuscar;
     @FXML private ComboBox<String> cbFiltro;
     private ObservableList<Cliente> clientes;
@@ -33,7 +35,7 @@ public class ClienteController {
     @FXML
     public void initialize() {
         clientes = FXCollections.observableArrayList(service.listarClientes());
-        cbFiltro.getItems().addAll("Nombre", "Direccion", "Telefono", "Email");
+        cbFiltro.getItems().addAll("Nombre", "Direccion", "Telefono", "Email", "Tipo (Notaria, Particular)");
         cbFiltro.setValue("Aplicar filtro");
         
         filtro = new TableFilter<>(clientes);
@@ -44,7 +46,8 @@ public class ClienteController {
                 o -> o.getNombre(),
                 o -> o.getDireccionCompleta(),
                 o -> o.getTelefono(),
-                o -> o.getEmail());
+                o -> o.getEmail(),
+                o -> o.getTipo().toString());
         
         configurarColumnas();
     }
@@ -54,6 +57,7 @@ public class ClienteController {
         colDireccion.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getDireccion()));
         colTelefono.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getTelefono()));
         colEmail.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getEmail()));
+        colTipo.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(c.getValue().getTipo()!= null ? c.getValue().getTipo().toString() : ""));
     }
 
     @FXML

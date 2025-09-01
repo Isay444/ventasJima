@@ -27,7 +27,7 @@ public class OrdenFormController {
     @FXML private DatePicker dpFechaLevantamiento;
     @FXML private DatePicker dpFechaEntregaPlano;
     @FXML private ComboBox<EstatusOrden> cbEstatus;
-
+    @FXML private CheckBox chkSolicitaFactura;
 
     private final ClienteRepository clienteRepo = new ClienteRepository();
     private final ServicioRepository servicioRepo = new ServicioRepository();
@@ -52,6 +52,8 @@ public class OrdenFormController {
         cbUsuario.getItems().addAll(usuarioRepo.findAll());
         cbEstatus.setItems(FXCollections.observableArrayList(EstatusOrden.values()));
         dpFecha.setValue(LocalDate.now()); // fecha por defecto
+        
+        chkSolicitaFactura.setSelected(true);
     }
         
     public void setOrden(Orden orden) {
@@ -65,6 +67,8 @@ public class OrdenFormController {
             cbZonaEjidal.setValue(orden.getZonaEjidal());
             cbUsuario.setValue(orden.getUsuario());
             dpFecha.setValue(orden.getFecha());
+            
+            chkSolicitaFactura.setSelected(orden.isSolicitaFactura());
             
             txtMontoTotal.setText(orden.getMontoTotal() != null ? orden.getMontoTotal().toPlainString() : "");
             BigDecimal saldo = service.calcularSaldoRestante(orden);
@@ -85,12 +89,9 @@ public class OrdenFormController {
     }
     
     @FXML
-    public void guardarOrden() {
-        
-        if (cbCliente.getValue() == null || cbServicio.getValue() == null
-            || cbIngeniero.getValue() == null || cbSubtipoTerreno.getValue() == null
-            || cbMunicipio.getValue() == null || cbZonaEjidal.getValue() == null
-            || cbUsuario.getValue() == null || dpFecha.getValue() == null) {
+    public void guardarOrden() {        
+        if (cbCliente.getValue() == null || cbServicio.getValue() == null || cbIngeniero.getValue() == null  || cbSubtipoTerreno.getValue() == null 
+            || cbMunicipio.getValue() == null || cbZonaEjidal.getValue() == null || cbUsuario.getValue() == null || dpFecha.getValue() == null ||cbEstatus.getValue() == null) {
             mostrarAlerta("Algunos campos estan vacíos");
             return;
         }
@@ -116,6 +117,8 @@ public class OrdenFormController {
         orden.setUsuario(cbUsuario.getValue());
         orden.setFecha(dpFecha.getValue());
         orden.setObservaciones(txtObservaciones.getText().toUpperCase());
+        
+        orden.setSolicitaFactura(chkSolicitaFactura.isSelected());
         
         orden.setFechaLevantamiento(dpFechaLevantamiento.getValue());
         orden.setFechaEntregaPlano(dpFechaEntregaPlano.getValue());

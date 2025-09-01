@@ -6,20 +6,27 @@ import jakarta.persistence.EntityTransaction;
 import java.util.List;
 
 public class OrdenRepository {
-    public List<Orden> findAll(){
+    public List<Orden> findAll() {
         EntityManager em = JPAUtil.getEMF().createEntityManager();
-        return em.createQuery(
-        "SELECT DISTINCT o FROM Orden o LEFT JOIN FETCH o.recibos", Orden.class
-    ).getResultList();
-
+        try {
+            return em.createQuery(
+                    "SELECT DISTINCT o FROM Orden o LEFT JOIN FETCH o.recibos", Orden.class
+            ).getResultList();
+        } finally {
+             em.close();
+        }
     }
     
     public Orden findByIdConRecibos(Integer id) {
         EntityManager em = JPAUtil.getEMF().createEntityManager();
-        return em.createQuery(
-            "SELECT o FROM Orden o LEFT JOIN FETCH o.recibos WHERE o.id = :id", Orden.class
-        ).setParameter("id", id)
-         .getSingleResult();
+        try {
+            return em.createQuery(
+                    "SELECT o FROM Orden o LEFT JOIN FETCH o.recibos WHERE o.id = :id", Orden.class
+            ).setParameter("id", id)
+                    .getSingleResult();
+        } finally {
+            em.close();
+        }
     }
 
     
@@ -28,7 +35,6 @@ public class OrdenRepository {
         try {
             return em.find(Orden.class, id);
         } finally {
-            //Ahora cierra el EntityManager correctamente
             em.close();
         }
     }
@@ -67,8 +73,7 @@ public class OrdenRepository {
                 if (managed == null) {
                     throw new RuntimeException("La orden con id=" + orden.getId() + " no existe");
                 }
-            }
-            
+            }            
             em.remove(managed);
             em.flush(); // forzar ejecución inmediata (detecta FK/errores aquí)
             tx.commit();
