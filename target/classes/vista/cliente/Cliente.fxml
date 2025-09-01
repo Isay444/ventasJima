@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.topografia.vista.cliente.ClienteController">
+
+    <top>
+        <ToolBar>
+            <Button text="Nuevo" onAction="#nuevoCliente"/>
+            <Button text="Editar" onAction="#editarCliente"/>
+            <Button text="Eliminar" onAction="#eliminarCliente"/>
+            <Button text="Actualizar" onAction="#cargarClientes"/>
+        </ToolBar>
+    </top>
+
+    <center>
+        <TableView fx:id="tablaClientes">
+            <columns>
+                <TableColumn fx:id="colNombre" text="Nombre" prefWidth="150"/>
+                <TableColumn fx:id="colDireccion" text="Dirección" prefWidth="200"/>
+                <TableColumn fx:id="colTelefono" text="Teléfono" prefWidth="120"/>
+                <TableColumn fx:id="colEmail" text="Email" prefWidth="200"/>
+                <TableColumn fx:id="colTipo" text="Tipo de cliente" prefWidth="130"/>
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>

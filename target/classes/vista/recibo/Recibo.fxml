@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.topografia.vista.recibo.ReciboController">
+
+    <top>
+        <ToolBar>
+            <Button text="Nuevo Recibo" onAction="#nuevoRecibo"/>
+            <Button text="Editar Recibo" onAction="#editarRecibo"/>
+            <Button text="Eliminar Recibo" onAction="#eliminarRecibo"/>
+        </ToolBar>
+    </top>
+
+    <center>
+        <TableView fx:id="tablaRecibos">
+            <columns>
+                <TableColumn fx:id="colFecha" text="Fecha" prefWidth="100"/>
+                <TableColumn fx:id="colMonto" text="Monto" prefWidth="100"/>
+                <TableColumn fx:id="colMetodoPago" text="Método de Pago" prefWidth="150"/>
+                <TableColumn fx:id="colOrden" text="Orden Asociada" prefWidth="150"/>
+                <!-- Nuevas columnas -->
+                <TableColumn fx:id="colEstado" text="Estado" prefWidth="100"/>
+                <TableColumn fx:id="colAnticipo" text="Anticipo" prefWidth="100"/>
+                <TableColumn fx:id="colAnticipoDos" text="Anticipo 2" prefWidth="100"/>
+                <TableColumn fx:id="colResto" text="Resto" prefWidth="100"/>
+                <TableColumn fx:id="colSaldo" text="Saldo" prefWidth="100"/>
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>
+
