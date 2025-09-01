@@ -4,11 +4,13 @@ import com.topografia.modelo.dao.*;
 import com.topografia.modelo.entidades.*;
 import com.topografia.modelo.entidades.Orden.EstatusOrden;
 import com.topografia.modelo.servicio.OrdenService;
+import java.io.File;
 import java.math.BigDecimal;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import java.time.LocalDate;
 import javafx.collections.FXCollections;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class OrdenFormController {
@@ -28,6 +30,10 @@ public class OrdenFormController {
     @FXML private DatePicker dpFechaEntregaPlano;
     @FXML private ComboBox<EstatusOrden> cbEstatus;
     @FXML private CheckBox chkSolicitaFactura;
+    
+    @FXML private CheckBox chkRequierePlano;
+    @FXML private ComboBox<Orden.EstadoPlano> cbEstadoPlano;
+    @FXML private TextField txtRutaPlano;
 
     private final ClienteRepository clienteRepo = new ClienteRepository();
     private final ServicioRepository servicioRepo = new ServicioRepository();
@@ -54,6 +60,16 @@ public class OrdenFormController {
         dpFecha.setValue(LocalDate.now()); // fecha por defecto
         
         chkSolicitaFactura.setSelected(true);
+        
+        cbEstadoPlano.getItems().setAll(Orden.EstadoPlano.values());
+        // Habilitar/deshabilitar según el checkbox
+        chkRequierePlano.selectedProperty().addListener((obs, oldVal, newVal) -> {
+            cbEstadoPlano.setDisable(!newVal);
+            txtRutaPlano.setDisable(!newVal);
+        });
+        // Estado inicial
+        cbEstadoPlano.setDisable(!chkRequierePlano.isSelected());
+        txtRutaPlano.setDisable(!chkRequierePlano.isSelected());
     }
         
     public void setOrden(Orden orden) {
@@ -67,8 +83,11 @@ public class OrdenFormController {
             cbZonaEjidal.setValue(orden.getZonaEjidal());
             cbUsuario.setValue(orden.getUsuario());
             dpFecha.setValue(orden.getFecha());
-            
             chkSolicitaFactura.setSelected(orden.isSolicitaFactura());
+            
+            cbEstadoPlano.setValue(orden.getEstadoPlano());
+            chkRequierePlano.setSelected(orden.isRequierePlano());
+            txtRutaPlano.setText(orden.getRutaPlano());
             
             txtMontoTotal.setText(orden.getMontoTotal() != null ? orden.getMontoTotal().toPlainString() : "");
             BigDecimal saldo = service.calcularSaldoRestante(orden);
@@ -119,6 +138,9 @@ public class OrdenFormController {
         orden.setObservaciones(txtObservaciones.getText().toUpperCase());
         
         orden.setSolicitaFactura(chkSolicitaFactura.isSelected());
+        orden.setRequierePlano(chkRequierePlano.isSelected());
+        orden.setEstadoPlano(cbEstadoPlano.getValue());
+        orden.setRutaPlano(txtRutaPlano.getText());
         
         orden.setFechaLevantamiento(dpFechaLevantamiento.getValue());
         orden.setFechaEntregaPlano(dpFechaEntregaPlano.getValue());
@@ -148,6 +170,21 @@ public class OrdenFormController {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setContentText(msg);
         alert.showAndWait();
+    }
+    @FXML
+    private void seleccionarPlano() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar archivo de plano topográfico");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf"),
+            new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg"),
+            new FileChooser.ExtensionFilter("Todos los archivos", "*.*")
+        );
+
+        File archivo = fileChooser.showOpenDialog(txtRutaPlano.getScene().getWindow());
+        if (archivo != null) {
+            txtRutaPlano.setText(archivo.getAbsolutePath());
+        }
     }
 }
 

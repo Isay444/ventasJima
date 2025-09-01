@@ -22,6 +22,7 @@ com\topografia\modelo\entidades\Cliente$TipoCliente.class
 com\topografia\modelo\entidades\SubtipoTerreno.class
 com\topografia\modelo\servicio\ClienteService.class
 com\topografia\modelo\dao\OrdenRepository.class
+com\topografia\modelo\entidades\Orden$EstadoPlano.class
 com\topografia\modelo\servicio\AuthService.class
 com\topografia\modelo\servicio\ReciboService.class
 com\topografia\infra\JPAUtil.class

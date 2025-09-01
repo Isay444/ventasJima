@@ -17,7 +17,7 @@ public class MainApp extends Application{
             return;
         }
         Scene scene = new Scene(loader.load());
-        //scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        //scene.getStylesheets().add(getClass().getResource("/styles/App.css").toExternalForm());
         stage.setTitle("Topografía - Login");
         stage.setScene(scene);
         stage.show();

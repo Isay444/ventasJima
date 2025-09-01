@@ -45,6 +45,7 @@
                 <TableColumn fx:id="colFechaEntregaPlano" prefWidth="120" text="Entrega Plano" />
                 <TableColumn fx:id="colEstatus" prefWidth="120" text="Estatus" />
                 <TableColumn fx:id="colSolicitaFactura" prefWidth="120" text="Factura" />
+                <TableColumn fx:id="colEstadoPlano" text="Plano" prefWidth="100.0" />
                 
                 <TableColumn fx:id="colVerRecibos" text="Recibos" prefWidth="100"/>
             </columns>

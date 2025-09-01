@@ -42,7 +42,8 @@ public class OrdenController {
     @FXML private TableColumn<Orden, String> colEstatus;
 
     @FXML private TableColumn<Orden, Void> colVerRecibos;
-
+    @FXML private TableColumn<Orden, String> colEstadoPlano;
+    
     private final OrdenService service = new OrdenService();
     private ObservableList<Orden> ordenes;
     private TableFilter<Orden> filtro;
@@ -115,7 +116,13 @@ public class OrdenController {
                 setGraphic(empty ? null : btn);
             }
         });
-
+        
+        colEstadoPlano.setCellValueFactory(c -> {
+            Orden orden = c.getValue();
+            if (!orden.isRequierePlano()) { return new SimpleStringProperty("No requerido"); }
+            if (orden.getEstadoPlano() == null) { return new SimpleStringProperty("Pendiente"); }
+            return new SimpleStringProperty( orden.getEstadoPlano() == Orden.EstadoPlano.ENTREGADO ? "Entregado" : "Pendiente" );
+        });
     }
 
     private void abrirRecibosDeOrden(Orden orden) throws IOException {

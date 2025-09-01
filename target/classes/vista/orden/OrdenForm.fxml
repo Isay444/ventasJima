@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
@@ -13,93 +14,174 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="660.0" prefWidth="600" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.topografia.vista.orden.OrdenFormController">
+<BorderPane prefHeight="652.0" prefWidth="709.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.topografia.vista.orden.OrdenFormController">
     <top>
-        <Label style="-fx-font-size:16; -fx-font-weight:bold;" text="Formulario de la Orden" BorderPane.alignment="CENTER" />
+        <Label maxHeight="35.0" minHeight="45.0" prefHeight="38.0" prefWidth="197.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 10 0 15 0;" text="Formulario de la Orden" BorderPane.alignment="CENTER" />
     </top>
+    
     <center>
-        <GridPane hgap="10" vgap="10">
-            <padding>
-                <Insets bottom="20" left="20" right="20" top="20" />
-            </padding>
-
-            <Label text="Cliente:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <ComboBox fx:id="cbCliente" promptText="Selecciona cliente" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-
-            <Label text="Servicio:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <ComboBox fx:id="cbServicio" promptText="Selecciona servicio" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-            <Label text="Ingeniero:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-            <ComboBox fx:id="cbIngeniero" promptText="Asignar ingeniero" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-
-            <Label text="Subtipo Terreno:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-            <ComboBox fx:id="cbSubtipoTerreno" promptText="Selecciona subtipo" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-
-            <Label text="Municipio:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-            <ComboBox fx:id="cbMunicipio" promptText="Selecciona municipio" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-
-            <Label text="Zona Ejidal:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-            <ComboBox fx:id="cbZonaEjidal" promptText="Selecciona zona" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-
-            <Label text="Usuario:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
-            <ComboBox fx:id="cbUsuario" promptText="Usuario que registra" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-
-            <Label text="Fecha:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-            <DatePicker fx:id="dpFecha" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-
-            <Label text="Monto Total:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
-            <TextField fx:id="txtMontoTotal" promptText="Ej. 1000.00" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-
-            <Label text="Saldo Restante:" GridPane.columnIndex="0" GridPane.rowIndex="9" />
-            <Label fx:id="lblSaldoRestante" text="Calculado automáticamente" textFill="#b7b7b7" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-
-            <Label text="Fecha Levantamiento:" GridPane.columnIndex="0" GridPane.rowIndex="10" />
-            <DatePicker fx:id="dpFechaLevantamiento" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-
-            <Label text="Fecha Entrega Plano:" GridPane.columnIndex="0" GridPane.rowIndex="11" />
-            <DatePicker fx:id="dpFechaEntregaPlano" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-
-            <Label text="Estatus:" GridPane.columnIndex="0" GridPane.rowIndex="12" />
-            <ComboBox fx:id="cbEstatus" promptText="Selecciona estatus" GridPane.columnIndex="1" GridPane.rowIndex="12" />
-            
-            <Label text="Factura:" GridPane.columnIndex="0" GridPane.rowIndex="13" />
-            <CheckBox fx:id="chkSolicitaFactura" text="Solicita factura" GridPane.columnIndex="1" GridPane.rowIndex="13" />
-            
-            <Label text="Observaciones:" GridPane.columnIndex="0" GridPane.rowIndex="14" />
-            <TextArea fx:id="txtObservaciones" prefRowCount="3" promptText="Informacion adicional importante" GridPane.columnIndex="1" GridPane.rowIndex="14" />
-            
-            <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="15">
-                <Button onAction="#guardarOrden" text="Guardar" />
-                <Button onAction="#cancelar" text="Cancelar" />
-                <padding>
-                    <Insets top="10" />
-                </padding>
-            </HBox>
-
-            <columnConstraints>
-                <ColumnConstraints halignment="RIGHT" minWidth="120" />
-                <ColumnConstraints hgrow="ALWAYS" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-                <RowConstraints />
-            <RowConstraints />
-            <RowConstraints maxHeight="26.400048828125023" minHeight="22.400048828125023" prefHeight="26.400048828125023" />
-            <RowConstraints maxHeight="54.999951171874955" minHeight="50.999951171874955" prefHeight="50.999951171874955" />
-            <RowConstraints />
-            </rowConstraints>
-
-        </GridPane>
+        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
+            <content>
+                <VBox spacing="8" style="-fx-padding: 20;">
+                    
+                    <!-- Sección: Información General -->
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2c3e50;" text="Información General" />
+                    <Separator />
+                    
+                    <GridPane hgap="11.0" vgap="8">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" maxWidth="120" minWidth="120" />
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="200" />
+                            <ColumnConstraints halignment="RIGHT" maxWidth="120" minWidth="120" />
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="200" />
+                        </columnConstraints>
+                        
+                        <!-- Primera fila -->
+                        <Label text="Cliente:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="cbCliente" maxWidth="Infinity" promptText="Selecciona cliente" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        
+                        <Label text="Servicio:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="cbServicio" maxWidth="Infinity" promptText="Selecciona servicio" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                        
+                        <!-- Segunda fila -->
+                        <Label text="Ingeniero:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="cbIngeniero" maxWidth="Infinity" promptText="Asignar ingeniero" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        
+                        <Label text="Usuario:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="cbUsuario" maxWidth="Infinity" promptText="Usuario que registra" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        
+                        <!-- Tercera fila -->
+                        <Label text="Fecha:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <DatePicker fx:id="dpFecha" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        
+                        <Label text="Estatus:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="cbEstatus" maxWidth="Infinity" promptText="Selecciona estatus" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
+                    </GridPane>
+                    
+                    <!-- Sección: Ubicación -->
+                    <Label maxHeight="29.0" maxWidth="65.0" minWidth="65.0" prefHeight="29.0" prefWidth="66.0" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2c3e50; -fx-padding: 15 0 0 0;" text="Ubicación" />
+                    <Separator />
+                    
+                    <GridPane hgap="12" vgap="8">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" maxWidth="120" minWidth="120" />
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="200" />
+                            <ColumnConstraints halignment="RIGHT" maxWidth="120" minWidth="120" />
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="200" />
+                        </columnConstraints>
+                        
+                        <Label text="Municipio:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="cbMunicipio" maxWidth="Infinity" promptText="Selecciona municipio" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        
+                        <Label text="Zona Ejidal:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="cbZonaEjidal" maxWidth="Infinity" promptText="Selecciona zona" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                        
+                        <Label text="Subtipo Terreno:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="cbSubtipoTerreno" maxWidth="Infinity" promptText="Selecciona subtipo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
+                    </GridPane>
+                    
+                    <!-- Sección: Información Financiera -->
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2c3e50; -fx-padding: 15 0 0 0;" text="Información Financiera" />
+                    <Separator />
+                    
+                    <GridPane hgap="12" vgap="8">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" maxWidth="120" minWidth="120" />
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="200" />
+                            <ColumnConstraints halignment="RIGHT" maxWidth="120" minWidth="120" />
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="200" />
+                        </columnConstraints>
+                        
+                        <Label text="Monto Total:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <TextField fx:id="txtMontoTotal" promptText="Ej. 1000.00" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        
+                        <Label text="Saldo Restante:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                        <Label fx:id="lblSaldoRestante" style="-fx-font-style: italic;" text="Calculado automáticamente" textFill="#7f8c8d" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                        
+                        <Label text="Factura:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <CheckBox fx:id="chkSolicitaFactura" text="Solicita factura" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
+                    </GridPane>
+                    
+                    <!-- Sección: Fechas Importantes -->
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2c3e50; -fx-padding: 15 0 0 0;" text="Fechas Importantes" />
+                    <Separator />
+                    
+                    <GridPane hgap="12" vgap="8">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" maxWidth="120" minWidth="120" />
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="200" />
+                            <ColumnConstraints halignment="RIGHT" maxWidth="120" minWidth="120" />
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="200" />
+                        </columnConstraints>
+                        
+                        <Label text="Fecha Levantamiento:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <DatePicker fx:id="dpFechaLevantamiento" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        
+                        <Label text="Fecha Entrega Plano:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                        <DatePicker fx:id="dpFechaEntregaPlano" maxWidth="Infinity" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                  <rowConstraints>
+                     <RowConstraints />
+                  </rowConstraints>
+                    </GridPane>
+                    
+                    <!-- Sección: Plano Topográfico -->
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2c3e50; -fx-padding: 15 0 0 0;" text="Plano Topográfico" />
+                    <Separator />
+                    
+                    <GridPane hgap="12" vgap="8">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" maxWidth="120" minWidth="120" />
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="200" />
+                            <ColumnConstraints halignment="RIGHT" maxWidth="120" minWidth="120" />
+                            <ColumnConstraints hgrow="ALWAYS" minWidth="200" />
+                        </columnConstraints>
+                        
+                        <Label text="Requiere Plano:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <CheckBox fx:id="chkRequierePlano" text="Requiere plano topográfico" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                        
+                        <Label text="Estado Plano:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                        <ComboBox fx:id="cbEstadoPlano" maxWidth="Infinity" promptText="Estado del plano" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                        
+                        <Label text="Archivo:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <HBox spacing="5" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1">
+                            <TextField fx:id="txtRutaPlano" editable="false" promptText="Ruta del archivo del plano" HBox.hgrow="ALWAYS" />
+                            <Button onAction="#seleccionarPlano" text="Examinar..." />
+                        </HBox>
+                  <rowConstraints>
+                     <RowConstraints />
+                     <RowConstraints />
+                  </rowConstraints>
+                    </GridPane>
+                    
+                    <!-- Sección: Observaciones -->
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #2c3e50; -fx-padding: 15 0 0 0;" text="Observaciones" />
+                    <Separator />
+                    
+                    <TextArea fx:id="txtObservaciones" maxHeight="80" prefRowCount="3" promptText="Información adicional importante sobre la orden..." wrapText="true" />
+                    
+                    <!-- Botones -->
+                    <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 20 0 10 0;">
+                        <Button onAction="#cancelar" style="-fx-min-width: 80px;" text="Cancelar" />
+                        <Button defaultButton="true" onAction="#guardarOrden" style="-fx-font-weight: bold; -fx-min-width: 80px;" text="Guardar" />
+                    </HBox>
+                    
+                </VBox>
+            </content>
+        </ScrollPane>
     </center>
 </BorderPane>

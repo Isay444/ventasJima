@@ -210,3 +210,81 @@
 .tool-bar .button:pressed {
     -fx-background-color: rgba(33, 150, 243, 0.2);
 }
+/*
+// Archivo styles.css 
+
+// Fondo y fuente general 
+.root {
+    -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -fx-font-size: 14px;
+    -fx-background-color: #f5f7fa;
+}
+
+// Estilo para Labels 
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-weight: 600;
+}
+
+// Etiquetas de indicaciones / placeholders 
+.label-light {
+    -fx-text-fill: #7a7a7a;
+    -fx-font-style: italic;
+    -fx-font-weight: normal;
+}
+
+// TextField y ComboBox 
+.text-field, .combo-box, .date-picker {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #c3cfe0;
+    -fx-border-width: 1;
+    -fx-padding: 6 10 6 10;
+    -fx-background-color: #ffffff;
+}
+
+.text-field:focused, .combo-box:focused, .date-picker:focused {
+    -fx-border-color: #6495ed; // Azul claro al foco
+}
+
+/* TextArea 
+.text-area {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #c3cfe0;
+    -fx-border-width: 1;
+    -fx-padding: 8 10 8 10;
+    -fx-background-color: #ffffff;
+}
+
+/* Botones 
+.button {
+    -fx-background-color: linear-gradient(to bottom, #6495ed, #4169e1);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.15) , 4,0,0,1 );
+}
+
+.button:hover {
+    -fx-background-color: linear-gradient(to bottom, #7a9fff, #5472d3);
+}
+
+.button:pressed {
+    -fx-background-color: #2a52be;
+}
+
+// CheckBox 
+.check-box {
+    -fx-padding: 3 0 3 0;
+}
+
+// GridPane separaciones 
+.grid-pane {
+    -fx-vgap: 15;
+    -fx-hgap: 15;
+}
+
+*/

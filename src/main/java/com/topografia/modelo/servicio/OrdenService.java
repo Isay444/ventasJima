@@ -30,6 +30,23 @@ public class OrdenService {
         if (orden == null) throw new IllegalArgumentException("La orden no puede ser nula");
         if (orden.getMontoTotal() == null) { orden.setMontoTotal(BigDecimal.ZERO); }
         if (orden.getEstatus() == null) { orden.setEstatus(EstatusOrden.ACTIVA); }
+        // 🔹 Validaciones para plano topográfico
+        if (!orden.isRequierePlano()) {
+            // Si no requiere plano, limpiar estado y ruta
+            orden.setEstadoPlano(null);
+            orden.setRutaPlano(null);
+        } else {
+            // Si requiere plano y no tiene estado, poner PENDIENTE por defecto
+            if (orden.getEstadoPlano() == null) {
+                orden.setEstadoPlano(Orden.EstadoPlano.PENDIENTE);
+            }
+            // Si el estado es ENTREGADO, opcionalmente exigir ruta
+            if (orden.getEstadoPlano() == Orden.EstadoPlano.ENTREGADO &&
+                (orden.getRutaPlano() == null || orden.getRutaPlano().isBlank())) {
+                throw new IllegalArgumentException("Debe especificar la ubicación del plano entregado.");
+            }
+        }
+
         try {
             repo.save(orden);
             System.out.println("Orden guardada exitosamente: " + 
